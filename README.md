@@ -1,4 +1,4 @@
-# This is the orignal project
+# This is the orignal Innovation project
 
 #### To start project, run npm install after cloning
 
