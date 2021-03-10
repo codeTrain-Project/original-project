@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Button from '../components/Button';
 import { Typography } from '../index';
+import { Spacing } from '../index';
 
 const WelcomeScreen = () => {
 	return (
@@ -26,7 +27,7 @@ export default WelcomeScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginHorizontal: 25,
+		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		marginVertical: '35%',
 		justifyContent: 'space-between',
 	},
