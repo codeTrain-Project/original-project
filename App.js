@@ -5,12 +5,14 @@ import Button from './src/components/Button';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 
 export default function App() {
+
 	return (
 		<View style={styles.container}>
 			<WelcomeScreen />
 			<StatusBar style="auto" />
 		</View>
 	);
+
 }
 
 const styles = StyleSheet.create({
