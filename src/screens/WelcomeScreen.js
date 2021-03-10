@@ -4,7 +4,6 @@ import Button from '../components/Button';
 import { Typography } from '../index';
 
 const WelcomeScreen = () => {
-	console.log(Typography.FONT_SIZE_LARGE);
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
