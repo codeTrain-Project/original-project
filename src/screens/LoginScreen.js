@@ -7,7 +7,6 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import Button from '../components/Button';
-import FormInput from '../components/FormInput';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
