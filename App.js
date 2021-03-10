@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from './src';
-import Button from './src/components/Button';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 
 export default function App() {
