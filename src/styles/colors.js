@@ -1,6 +1,6 @@
-export const PRIMARY = '#1779ba';
+export const PRIMARY = '#46D8A3';
 export const SECONDARY = '#767676';
-export const WHITE = '#FFFFFF';
+export const WHITE = '#FCF9F9';
 export const BLACK = '#000000';
 
 // ACTIONS
