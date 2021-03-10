@@ -15,10 +15,10 @@ export default Button;
 const styles = StyleSheet.create({
 	btnContainer: {
 		backgroundColor: Colors.PRIMARY,
-		height: 52,
+		height: 47,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: 10,
+		borderRadius: 200,
 		marginVertical: 25,
 
 		shadowColor: '#000',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 	},
 
 	label: {
-		fontSize: 24,
+		fontSize: 21,
 		color: Colors.WHITE,
 	},
 });
