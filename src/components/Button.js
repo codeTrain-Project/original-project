@@ -2,9 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../index';
 
-const Button = ({ label }) => {
+const Button = ({ label, width = '100%', btnColor = Colors.PRIMARY }) => {
 	return (
-		<TouchableOpacity style={styles.btnContainer}>
+		<TouchableOpacity
+			style={{
+				...styles.btnContainer,
+				width: width,
+				backgroundColor: btnColor,
+			}}
+		>
 			<Text style={styles.label}>{label}</Text>
 		</TouchableOpacity>
 	);
