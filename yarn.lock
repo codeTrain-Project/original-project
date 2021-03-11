@@ -3063,7 +3063,7 @@
   "resolved" "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.0.3.tgz"
   "version" "1.0.3"
 
-"expo@~40.0.0":
+"expo@^40.0.1":
   "integrity" "sha512-9NrhimvP44I1aDjGHMU4F0izCyfFTTYAQ6xZpWpuc+ZWRZqg8Zv62zNRlzBn+Ydaf1heSucnlJJ3Sp2gMdOEnQ=="
   "resolved" "https://registry.npmjs.org/expo/-/expo-40.0.1.tgz"
   "version" "40.0.1"
@@ -5286,6 +5286,11 @@
   "integrity" "sha512-wmcGbdyE/vBSL5IjDPReoJUEqxkZsywZw5gPwsVUV1NBpw5eTIdnL6Y0uNKHE25Z661moxPHQz6kwAkYQyorxA=="
   "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-3.1.9.tgz"
   "version" "3.1.9"
+
+"react-native-virtual-keyboard@^1.1.0":
+  "integrity" "sha512-qcFzumzKdbu1iVtvQpYW4WTwTVljon9RRLbgFF6idWbq9Ez+tCVw/MMl1LcOffpCNJVY/bg2PsOqmFUNDa/eRA=="
+  "resolved" "https://registry.npmjs.org/react-native-virtual-keyboard/-/react-native-virtual-keyboard-1.1.0.tgz"
+  "version" "1.1.0"
 
 "react-native-web@~0.13.12", "react-native-web@~0.13.7":
   "integrity" "sha512-WR/0ECAmwLQ2+2cL2Ur+0/swXFAtcSM0URoADJmG6D4MnY+wGc91JO8LoOTlgY0USBOY+qG/beRrjFa+RAuOiA=="
