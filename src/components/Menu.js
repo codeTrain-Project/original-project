@@ -10,22 +10,18 @@ import { Spacing, Colors } from '../index';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 
-const Menu = () => {
+const Menu = ({ backgroundColor = '#12AA73', color = Colors.WHITE }) => {
 	return (
-		<View style={styles.parentContainer}>
+		<View style={{ ...styles.parentContainer, backgroundColor }}>
 			<View style={styles.container}>
 				<TouchableOpacity>
-					<MaterialCommunityIcons
-						name="home-variant"
-						size={30}
-						color={Colors.WHITE}
-					/>
+					<MaterialCommunityIcons name="home-variant" size={30} color={color} />
 				</TouchableOpacity>
 				<TouchableOpacity>
-					<Text style={styles.txt}>₵</Text>
+					<Text style={{ ...styles.txt, color, ...styles.icon }}>₵</Text>
 				</TouchableOpacity>
 				<TouchableOpacity>
-					<Fontisto name="clock" size={30} color={Colors.WHITE} />
+					<Fontisto name="clock" size={30} style={styles.icon} color={color} />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -48,6 +44,16 @@ const styles = StyleSheet.create({
 	},
 	txt: {
 		fontSize: 30,
-		color: Colors.WHITE,
+	},
+	icon: {
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 7,
+		},
+		shadowOpacity: 0.41,
+		shadowRadius: 9.11,
+
+		elevation: 14,
 	},
 });
