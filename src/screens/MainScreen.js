@@ -9,7 +9,7 @@ import { Spacing, Colors } from '../index';
 const MainScreen = () => {
 	return (
 		<View style={styles.container}>
-			<User color="white" />
+			<User color="white" marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
 
 			<View style={styles.keyContainer}>
 				<KeyboardComponent />
