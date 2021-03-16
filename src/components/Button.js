@@ -9,6 +9,7 @@ const Button = ({
 	textColor = Colors.WHITE,
 	height = 47,
 	borderRadius = 200,
+	handler,
 }) => {
 	return (
 		<TouchableOpacity
@@ -19,6 +20,7 @@ const Button = ({
 				height,
 				borderRadius,
 			}}
+			onPress={() => handler()}
 		>
 			<Text style={{ ...styles.label, color: textColor }}>{label}</Text>
 		</TouchableOpacity>
