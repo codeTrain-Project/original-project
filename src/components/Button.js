@@ -2,10 +2,25 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../index';
 
-const Button = ({ label }) => {
+const Button = ({
+	label,
+	width = '100%',
+	btnColor = Colors.PRIMARY,
+	textColor = Colors.WHITE,
+	height = 47,
+	borderRadius = 200,
+}) => {
 	return (
-		<TouchableOpacity style={styles.btnContainer}>
-			<Text style={styles.label}>{label}</Text>
+		<TouchableOpacity
+			style={{
+				...styles.btnContainer,
+				width: width,
+				backgroundColor: btnColor,
+				height,
+				borderRadius,
+			}}
+		>
+			<Text style={{ ...styles.label, color: textColor }}>{label}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -14,11 +29,9 @@ export default Button;
 
 const styles = StyleSheet.create({
 	btnContainer: {
-		backgroundColor: Colors.PRIMARY,
-		height: 52,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: 10,
+
 		marginVertical: 25,
 
 		shadowColor: '#000',
@@ -32,7 +45,7 @@ const styles = StyleSheet.create({
 	},
 
 	label: {
-		fontSize: 24,
+		fontSize: 21,
 		color: Colors.WHITE,
 	},
 });
