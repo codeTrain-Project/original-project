@@ -10,9 +10,19 @@ import { Spacing, Colors } from '../index';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 
-const Menu = ({ backgroundColor = '#12AA73', color = Colors.WHITE }) => {
+const Menu = ({
+	backgroundColor = '#12AA73',
+	color = Colors.WHITE,
+	border = 1,
+}) => {
 	return (
-		<View style={{ ...styles.parentContainer, backgroundColor }}>
+		<View
+			style={{
+				...styles.parentContainer,
+				backgroundColor,
+				borderTopWidth: border,
+			}}
+		>
 			<View style={styles.container}>
 				<TouchableOpacity>
 					<MaterialCommunityIcons name="home-variant" size={30} color={color} />
@@ -35,6 +45,8 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
+		borderTopWidth: 1,
+		borderTopColor: Colors.GRAY_LIGHT,
 	},
 	container: {
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
