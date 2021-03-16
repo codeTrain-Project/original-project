@@ -11,66 +11,68 @@ import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
 	const [view, setView] = useState(false);
 	console.log(view);
 	return (
 		<View style={styles.container}>
-			<View style={styles.headingContainer}>
-				<Text style={styles.heading}>Hello there</Text>
-				<View style={styles.circle}></View>
-			</View>
-
-			<View>
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Email</Text>
-
-					<TextInput
-						placeholder="Enter your email"
-						placeholderTextColor="#cacaca"
-						autoCapitalize="none"
-						autoCorrect={false}
-						style={styles.input}
-					/>
+			<View style={styles.content}>
+				<View style={styles.headingContainer}>
+					<Text style={styles.heading}>Hello there</Text>
+					<View style={styles.circle}></View>
 				</View>
 
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Password</Text>
-					<View style={styles.passwordContainer}>
+				<View>
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Email</Text>
+
 						<TextInput
-							placeholder="Enter your password"
-							placeholderTextColor="#a6a2a2"
+							placeholder="Enter your email"
+							placeholderTextColor="#cacaca"
 							autoCapitalize="none"
 							autoCorrect={false}
-							secureTextEntry={!view}
 							style={styles.input}
 						/>
-
-						{view ? (
-							<TouchableOpacity
-								onPress={() => setView(false)}
-								style={styles.icon}
-							>
-								<Feather name="eye" size={21} color="black" />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								onPress={() => setView(true)}
-								style={styles.icon}
-							>
-								<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-							</TouchableOpacity>
-						)}
 					</View>
+
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Password</Text>
+						<View style={styles.passwordContainer}>
+							<TextInput
+								placeholder="Enter your password"
+								placeholderTextColor="#a6a2a2"
+								autoCapitalize="none"
+								autoCorrect={false}
+								secureTextEntry={!view}
+								style={styles.input}
+							/>
+
+							{view ? (
+								<TouchableOpacity
+									onPress={() => setView(false)}
+									style={styles.icon}
+								>
+									<Feather name="eye" size={21} color="black" />
+								</TouchableOpacity>
+							) : (
+								<TouchableOpacity
+									onPress={() => setView(true)}
+									style={styles.icon}
+								>
+									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
+								</TouchableOpacity>
+							)}
+						</View>
+					</View>
+					<Text style={styles.error}>Incorrect login credentials</Text>
 				</View>
-				<Text style={styles.error}>Incorrect login credentials</Text>
-			</View>
 
-			<Button label="Login" />
+				<Button label="Login" handler={() => navigation.navigate('Main')} />
 
-			<View style={styles.txtContainer}>
-				<Text style={styles.text}>New to Handy Money ? </Text>
-				<Text style={[styles.text, styles.signupTxt]}>SIGN UP</Text>
+				<View style={styles.txtContainer}>
+					<Text style={styles.text}>New to Handy Money ? </Text>
+					<Text style={[styles.text, styles.signupTxt]}>SIGN UP</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -81,12 +83,15 @@ export default LoginScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: Colors.WHITE,
+	},
+	content: {
+		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		marginVertical: '35%',
 		justifyContent: 'space-between',
 	},
 	headingContainer: {
-		// backgroundColor: 'red',
 		width: '37%',
 		flexDirection: 'row',
 	},
