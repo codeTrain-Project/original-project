@@ -3,12 +3,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from './src';
 import MainScreen from './src/screens/MainScreen';
+import RequestScreen from './src/screens/RequestScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen'
 export default function App() {
 	return (
 		<View style={styles.container}>
 			{/* <MainScreen /> */}
-			<WelcomeScreen/>
+			{/* <WelcomeScreen/> */}
+			<RequestScreen/>
 			<StatusBar style="auto" />
 		</View>
 	);
@@ -17,6 +19,6 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Colors.PRIMARY,
+		backgroundColor: Colors.WHITE,
 	},
 });
