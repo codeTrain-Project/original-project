@@ -6,11 +6,12 @@ import User from '../components/User';
 import { Spacing, Colors } from '../index';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import TopUpDialogBox from './TopUpDialogBox';
 
 export default function HomeScreen() {
 	return (
 		<View style={styles.container}>
-			<User marginHorizontal={0} />
+			<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
 			<View style={styles.txtContainer}>
 				<Text style={styles.amount}> GH₵0.00</Text>
 				<Text style={styles.subHeading}>Money Balance</Text>
@@ -39,9 +40,11 @@ export default function HomeScreen() {
 				</View>
 				<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
 			</View>
+			{/* <View style={styles.bacground}></View> */}
 			{/* TODO */}
 			{/* MAKE THE WIDTH COVER FULL SCREEN/ */}
 			<Menu backgroundColor={Colors.WHITE} color="black" />
+			{/* <TopUpDialogBox /> */}
 		</View>
 	);
 }
@@ -49,8 +52,8 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
-		marginTop: '15%',
+		// marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
+		marginTop: '25%',
 	},
 	txtContainer: {
 		marginTop: 70,
@@ -68,12 +71,14 @@ const styles = StyleSheet.create({
 	btnContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 	},
 	linkContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		marginTop: 50,
+		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 	},
 	link: {
 		// backgroundColor: 'red',
@@ -95,5 +100,18 @@ const styles = StyleSheet.create({
 		color: '#A6A2A2',
 		fontSize: 18,
 		marginLeft: 20,
+	},
+	bacground: {
+		width: '100%',
+		height: '100%',
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: 'black',
+		opacity: 0.4,
+		zIndex: 1,
+		elevation: 10,
 	},
 });

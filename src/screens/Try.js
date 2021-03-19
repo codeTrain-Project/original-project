@@ -11,13 +11,7 @@ import {
 const Try = () => {
 	return (
 		<View style={styles.container}>
-			<TextInput
-				placeholder="Enter your password"
-				placeholderTextColor="#a6a2a2"
-				autoCapitalize="none"
-				autoCorrect={false}
-				onPress={() => Keyboard.dismiss()}
-			/>
+			<Text>rhtdjyfvgbhnkjm</Text>
 		</View>
 	);
 };
@@ -26,6 +20,7 @@ export default Try;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		marginTop: 500,
 	},
 });
