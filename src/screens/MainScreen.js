@@ -6,20 +6,22 @@ import Menu from '../components/Menu';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
 
-const MainScreen = () => {
+const MainScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<User color="white" />
+			<View style={styles.content}>
+				<User color="white" marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
 
-			<View style={styles.keyContainer}>
-				<KeyboardComponent />
-				<View style={styles.btnContainer}>
-					<Button label="Request" width="48%" btnColor="#12AA73" />
-					<Button label="Pay" width="48%" btnColor="#12AA73" />
+				<View style={styles.keyContainer}>
+					<KeyboardComponent />
+					<View style={styles.btnContainer}>
+						<Button label="Request" width="48%" btnColor="#12AA73" />
+						<Button label="Pay" width="48%" btnColor="#12AA73" />
+					</View>
 				</View>
-			</View>
 
-			<Menu />
+				<Menu border={0} />
+			</View>
 		</View>
 	);
 };
@@ -29,7 +31,10 @@ export default MainScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
+		backgroundColor: Colors.PRIMARY,
+	},
+	content: {
+		flex: 1,
 		marginTop: 80,
 	},
 	keyContainer: {
@@ -40,6 +45,6 @@ const styles = StyleSheet.create({
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 30,
+		marginTop: 50,
 	},
 });
