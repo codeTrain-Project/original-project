@@ -14,6 +14,7 @@ const Menu = ({
 	backgroundColor = '#12AA73',
 	color = Colors.WHITE,
 	border = 1,
+	navigation,
 }) => {
 	return (
 		<View
@@ -24,13 +25,13 @@ const Menu = ({
 			}}
 		>
 			<View style={styles.container}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
 					<MaterialCommunityIcons name="home-variant" size={30} color={color} />
 				</TouchableOpacity>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate('Main')}>
 					<Text style={{ ...styles.txt, color, ...styles.icon }}>₵</Text>
 				</TouchableOpacity>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate('Activity')}>
 					<Fontisto name="clock" size={30} style={styles.icon} color={color} />
 				</TouchableOpacity>
 			</View>
