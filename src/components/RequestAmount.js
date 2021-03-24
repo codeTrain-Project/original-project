@@ -71,7 +71,7 @@ export const RequestAmount = ({ heading, label }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginVertical: '10%',
+		marginVertical: '5%',
 	},
     header: {
         marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
