@@ -71,7 +71,12 @@ const LoginScreen = ({ navigation }) => {
 
 				<View style={styles.txtContainer}>
 					<Text style={styles.text}>New to Handy Money ? </Text>
-					<Text style={[styles.text, styles.signupTxt]}>SIGN UP</Text>
+					<Text
+						style={[styles.text, styles.signupTxt]}
+						onPress={() => navigation.navigate('Register')}
+					>
+						SIGN UP
+					</Text>
 				</View>
 			</View>
 		</View>
