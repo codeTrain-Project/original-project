@@ -11,10 +11,10 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 
 export default function App() {
 	return (
-		<View style={styles.container}>
+		<>
 			{/* <RequestPage/> */}
 			<ActivityScreen/>
-		</View>
+		</>
 	);
 }
 
@@ -26,9 +26,9 @@ export default function App() {
 // 	},
 // });
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: Colors.WHITE,
-	},
-});
+// const styles = StyleSheet.create({
+// 	container: {
+// 		flex: 1,
+// 		backgroundColor: Colors.WHITE,
+// 	},
+// });
