@@ -10,10 +10,30 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { go } from '../store/actions/authActions';
 
-const RegisterScreen = ({ navigation }) => {
-	const [view, setView] = useState(false);
-	console.log(view);
+const RegisterScreen = ({ navigation, go }) => {
+	const [state, setState] = useState({
+		email: '',
+		phone: '',
+	});
+
+	const handleChange = (name, value) => {
+		setState({
+			...state,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		go(state);
+		// setState({
+		// 	...state,
+		// 	email: '',
+		// 	phone: '',
+		// });
+	};
 	return (
 		<View style={styles.container}>
 			<View>
@@ -24,6 +44,8 @@ const RegisterScreen = ({ navigation }) => {
 						placeholder="Enter your email"
 						placeholderTextColor="#cacaca"
 						autoCapitalize="none"
+						onChangeText={(text) => handleChange('email', text)}
+						value={state.email}
 						autoCorrect={false}
 						style={styles.input}
 					/>
@@ -35,7 +57,9 @@ const RegisterScreen = ({ navigation }) => {
 					<TextInput
 						placeholder="Enter your phone number"
 						placeholderTextColor="#cacaca"
+						onChangeText={(text) => handleChange('phone', text)}
 						autoCapitalize="none"
+						value={state.phone}
 						autoCorrect={false}
 						style={styles.input}
 					/>
@@ -44,7 +68,13 @@ const RegisterScreen = ({ navigation }) => {
 				<Text style={styles.error}>User already exists</Text>
 			</View>
 			<View style={styles.btnContainer}>
-				<Button label="Next" handler={() => navigation.navigate('Register2')} />
+				<Button
+					label="Next"
+					handler={() => {
+						handleSubmit();
+						navigation.navigate('Register2');
+					}}
+				/>
 			</View>
 
 			<View style={styles.txtContainer}>
@@ -60,7 +90,13 @@ const RegisterScreen = ({ navigation }) => {
 	);
 };
 
-export default RegisterScreen;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+	go,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {
