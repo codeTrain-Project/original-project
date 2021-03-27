@@ -10,10 +10,26 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
+import { go2 } from '../store/actions/authActions';
+import { connect } from 'react-redux';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, go2 }) => {
 	const [view, setView] = useState(false);
-	console.log(view);
+	const [state, setState] = useState({
+		password: '',
+		confirmPassword: '',
+	});
+
+	const handleChange = (name, value) => {
+		setState({
+			...state,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		go2(state);
+	};
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -26,6 +42,8 @@ const RegisterScreen = ({ navigation }) => {
 								placeholderTextColor="#cacaca"
 								autoCapitalize="none"
 								autoCorrect={false}
+								value={state.password}
+								onChangeText={(text) => handleChange('password', text)}
 								secureTextEntry={!view}
 								style={styles.input}
 							/>
@@ -56,6 +74,8 @@ const RegisterScreen = ({ navigation }) => {
 								placeholderTextColor="#cacaca"
 								autoCapitalize="none"
 								autoCorrect={false}
+								value={state.confirmPassword}
+								onChangeText={(text) => handleChange('confirmPassword', text)}
 								secureTextEntry={!view}
 								style={styles.input}
 							/>
@@ -83,7 +103,10 @@ const RegisterScreen = ({ navigation }) => {
 				<View style={styles.btnContainer}>
 					<Button
 						label="Register"
-						handler={() => navigation.navigate('Register3')}
+						handler={() => {
+							handleSubmit();
+							navigation.navigate('Register3');
+						}}
 					/>
 				</View>
 
@@ -101,7 +124,13 @@ const RegisterScreen = ({ navigation }) => {
 	);
 };
 
-export default RegisterScreen;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+	go2,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {
