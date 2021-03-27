@@ -32,7 +32,7 @@ const MainNavigator = () => {
 							return <Text style={{ fontSize: size, color }}>₵</Text>;
 							// iconName = focused ? 'ios-list-box' : 'ios-list';
 						} else {
-							iconName = focused ? 'ios-list-box' : 'ios-list';
+							iconName = focused ? 'ios-list' : 'ios-list';
 						}
 
 						// You can return any component that you like here!
