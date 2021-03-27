@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { connect } from 'react-redux';
 import Button from '../components/Button';
 import { Colors, Spacing } from '../index';
-const RegisterScreen3 = () => {
+import { go3, all } from '../store/actions/authActions';
+
+const RegisterScreen3 = ({ go3, all }) => {
+	const [tagName, setTagName] = useState('');
+
+	const handleChange = (name, value) => {
+		setTagName({
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		go3(tagName);
+		all();
+	};
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -17,18 +32,27 @@ const RegisterScreen3 = () => {
 							placeholderTextColor="#363636"
 							autoCapitalize="none"
 							autoCorrect={false}
+							value={tagName}
+							onChangeText={(text) => handleChange('tagName', text)}
 							style={styles.input}
 						/>
 					</View>
 				</View>
 
-				<Button label="Done" handler={() => navigation.navigate('Main')} />
+				<Button label="Done" handler={() => handleSubmit()} />
 			</View>
 		</View>
 	);
 };
 
-export default RegisterScreen3;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+	go3,
+	all,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen3);
 
 const styles = StyleSheet.create({
 	container: {
