@@ -10,97 +10,138 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
+import { go } from '../store/actions/authActions';
+import { connect } from 'react-redux';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation, go }) => {
 	const [view, setView] = useState(false);
-	console.log(view);
+	const [state, setState] = useState({
+		password: '',
+		confirmPassword: '',
+	});
+
+	const handleChange = (name, value) => {
+		setState({
+			...state,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		go(state);
+	}; 
 	return (
 		<View style={styles.container}>
-			<View>
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Password</Text>
-					<View style={styles.passwordContainer}>
-						<TextInput
-							placeholder="Enter your password"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							secureTextEntry={!view}
-							style={styles.input}
-						/>
+			<View style={styles.content}>
+				<View>
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Password</Text>
+						<View style={styles.passwordContainer}>
+							<TextInput
+								placeholder="Enter your password"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								value={state.password}
+								onChangeText={(text) => handleChange('password', text)}
+								secureTextEntry={!view}
+								style={styles.input}
+							/>
 
-						{view ? (
-							<TouchableOpacity
-								onPress={() => setView(false)}
-								style={styles.icon}
-							>
-								<Feather name="eye" size={21} color="black" />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								onPress={() => setView(true)}
-								style={styles.icon}
-							>
-								<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-							</TouchableOpacity>
-						)}
+							{view ? (
+								<TouchableOpacity
+									onPress={() => setView(false)}
+									style={styles.icon}
+								>
+									<Feather name="eye" size={21} color="black" />
+								</TouchableOpacity>
+							) : (
+								<TouchableOpacity
+									onPress={() => setView(true)}
+									style={styles.icon}
+								>
+									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
+								</TouchableOpacity>
+							)}
+						</View>
 					</View>
+
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Confirm Password</Text>
+						<View style={styles.passwordContainer}>
+							<TextInput
+								placeholder="Enter your password"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								value={state.confirmPassword}
+								onChangeText={(text) => handleChange('confirmPassword', text)}
+								secureTextEntry={!view}
+								style={styles.input}
+							/>
+
+							{view ? (
+								<TouchableOpacity
+									onPress={() => setView(false)}
+									style={styles.icon}
+								>
+									<Feather name="eye" size={21} color="black" />
+								</TouchableOpacity>
+							) : (
+								<TouchableOpacity
+									onPress={() => setView(true)}
+									style={styles.icon}
+								>
+									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
+								</TouchableOpacity>
+							)}
+						</View>
+					</View>
+
+					<Text style={styles.error}>Password does not match</Text>
+				</View>
+				<View style={styles.btnContainer}>
+					<Button
+						label="Register"
+						handler={() => {
+							handleSubmit();
+							navigation.navigate('Register3');
+						}}
+					/>
 				</View>
 
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Confirm Password</Text>
-					<View style={styles.passwordContainer}>
-						<TextInput
-							placeholder="Enter your password"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							secureTextEntry={!view}
-							style={styles.input}
-						/>
-
-						{view ? (
-							<TouchableOpacity
-								onPress={() => setView(false)}
-								style={styles.icon}
-							>
-								<Feather name="eye" size={21} color="black" />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								onPress={() => setView(true)}
-								style={styles.icon}
-							>
-								<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-							</TouchableOpacity>
-						)}
-					</View>
+				<View style={styles.txtContainer}>
+					<Text style={styles.text}>Already have an account ? </Text>
+					<Text
+						style={[styles.text, styles.signupTxt]}
+						onPress={() => navigation.navigate('Log in')}
+					>
+						LOG IN
+					</Text>
 				</View>
-
-				<Text style={styles.error}>Password does not match</Text>
-			</View>
-			<View style={styles.btnContainer}>
-				<Button label="Register" />
-			</View>
-
-			<View style={styles.txtContainer}>
-				<Text style={styles.text}>Already have an account ? </Text>
-				<Text style={[styles.text, styles.signupTxt]}>LOG IN</Text>
 			</View>
 		</View>
 	);
 };
 
-export default RegisterScreen;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+	go,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: Colors.WHITE,
+	},
+	content: {
+		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		marginVertical: '45%',
-		// justifyContent: 'space-between',
 	},
-
 	formInput: {
 		marginVertical: 25,
 	},

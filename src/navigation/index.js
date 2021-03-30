@@ -2,64 +2,59 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import LoginScreen from '../screens/LoginScreen';
-import MainScreen from '../screens/MainScreen';
-import HomeScreen from '../screens/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ModalScreen from '../screens/ModalScreen';
 import AddMoneyScreen from '../screens/AddMoneyScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../index';
+import HomeStack from './HomeStack';
+import MainStack from './MainStack';
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const Stack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				screenOptions={{
-					header: () => null,
+			<Tab.Navigator
+				initialRouteName="Main"
+				screenOptions={({ route }) => ({
+					tabBarIcon: ({ focused, color, size }) => {
+						let iconName;
+
+						if (route.name === 'Home') {
+							iconName = focused
+								? 'ios-information-circle'
+								: 'ios-information-circle-outline';
+						} else if (route.name === 'Main') {
+							return <Text style={{ fontSize: size, color }}>₵</Text>;
+							// iconName = focused ? 'ios-list-box' : 'ios-list';
+						} else {
+							iconName = focused ? 'ios-list' : 'ios-list';
+						}
+
+						// You can return any component that you like here!
+						// if (route.name === 'Main') {
+						// 	return <Text style={{ fontSize: size, color }}>₵</Text>;
+						// }
+						return <Ionicons name={iconName} size={size} color={color} />;
+					},
+				})}
+				tabBarOptions={{
+					activeTintColor: Colors.PRIMARY,
+					inactiveTintColor: 'gray',
+					showLabel: false,
 				}}
 			>
-				<Stack.Screen
-					name="  Welcome"
-					component={WelcomeScreen}
+				<Tab.Screen
 					options={{
-						header: () => null,
+						tabBarVisible: false,
 					}}
+					name="Home"
+					component={HomeStack}
 				/>
-				<Stack.Screen name="Register" component={RegisterScreen} />
-				<Stack.Screen name="Log in" component={LoginScreen} />
-				<Stack.Screen name="Main" component={MainScreen} />
-				<Stack.Screen name="Home" component={HomeScreen} />
-				<Stack.Screen name="Add Money" component={AddMoneyScreen} />
-				<Stack.Screen
-					options={{
-						headerShown: false,
-						cardStyle: { backgroundColor: 'transparent' },
-						cardOverlayEnabled: true,
-						cardStyleInterpolator: ({ current: { progress } }) => ({
-							cardStyle: {
-								opacity: progress.interpolate({
-									inputRange: [0, 0.5, 0.9, 1],
-									outputRange: [0, 0.25, 0.7, 1],
-								}),
-							},
-							overlayStyle: {
-								opacity: progress.interpolate({
-									inputRange: [0, 1],
-									outputRange: [0, 0.5],
-									extrapolate: 'clamp',
-								}),
-							},
-						}),
-					}}
-					mode="modal"
-					name="Modal"
-					component={ModalScreen}
-				/>
-			</Stack.Navigator>
+				<Tab.Screen name="Main" component={MainStack} />
+				<Tab.Screen name="Activity" component={AddMoneyScreen} />
+			</Tab.Navigator>
 		</NavigationContainer>
 	);
 };

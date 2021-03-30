@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
 import KeyboardComponent from '../components/KeyboardComponent';
-import Menu from '../components/Menu';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
 
@@ -10,7 +9,11 @@ const MainScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
-				<User color="white" marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
+				<User
+					color="white"
+					marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE}
+					handler={() => navigation.navigate('Profile')}
+				/>
 
 				<View style={styles.keyContainer}>
 					<KeyboardComponent />
@@ -19,8 +22,6 @@ const MainScreen = ({ navigation }) => {
 						<Button label="Pay" width="48%" btnColor="#12AA73" />
 					</View>
 				</View>
-
-				<Menu border={0} navigation={navigation} />
 			</View>
 		</View>
 	);

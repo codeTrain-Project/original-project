@@ -1,18 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
-import Menu from '../components/Menu';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import TopUpDialogBox from './TopUpDialogBox';
 
 export default function HomeScreen({ navigation }) {
 	return (
 		<View style={styles.container}>
+			<Ionicons
+				name="md-close"
+				size={30}
+				color="black"
+				style={styles.back}
+				onPress={() => navigation.navigate('Main')}
+			/>
 			<View style={styles.content}>
-				<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
+				<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} mt={-40} />
 				<View style={styles.txtContainer}>
 					<Text style={styles.amount}> GH₵0.00</Text>
 					<Text style={styles.subHeading}>Money Balance</Text>
@@ -48,13 +53,7 @@ export default function HomeScreen({ navigation }) {
 					</View>
 					<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
 				</View>
-				{/* TODO */}
-				{/* MAKE THE WIDTH COVER FULL SCREEN/ */}
-				<Menu
-					backgroundColor={Colors.WHITE}
-					color="black"
-					navigation={navigation}
-				/>
+			
 			</View>
 		</View>
 	);
@@ -64,6 +63,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.WHITE,
+	},
+	back: {
+		marginTop: '20%',
+		marginLeft: Spacing.HORIZONTAL_WHITE_SPACE,
 	},
 	content: {
 		flex: 1,

@@ -10,10 +10,27 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { login } from '../store/actions/authActions';
 
 const LoginScreen = ({ navigation }) => {
 	const [view, setView] = useState(false);
-	console.log(view);
+	const [user, setUser] = useState({
+		email: '',
+		password: '',
+	});
+
+	const handleChange = (name, value) => {
+		setState({
+			...state,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		login(state);
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -32,6 +49,8 @@ const LoginScreen = ({ navigation }) => {
 							autoCapitalize="none"
 							autoCorrect={false}
 							style={styles.input}
+							value={user.email}
+							onChangeText={(text) => handleChange('email', text)}
 						/>
 					</View>
 
@@ -45,6 +64,8 @@ const LoginScreen = ({ navigation }) => {
 								autoCorrect={false}
 								secureTextEntry={!view}
 								style={styles.input}
+								value={user.password}
+								onChangeText={(text) => handleChange('password', text)}
 							/>
 
 							{view ? (
@@ -71,14 +92,25 @@ const LoginScreen = ({ navigation }) => {
 
 				<View style={styles.txtContainer}>
 					<Text style={styles.text}>New to Handy Money ? </Text>
-					<Text style={[styles.text, styles.signupTxt]}>SIGN UP</Text>
+					<Text
+						style={[styles.text, styles.signupTxt]}
+						onPress={() => navigation.navigate('Register')}
+					>
+						SIGN UP
+					</Text>
 				</View>
 			</View>
 		</View>
 	);
 };
 
-export default LoginScreen;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+	login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
 	container: {

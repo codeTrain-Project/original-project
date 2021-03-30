@@ -9,11 +9,27 @@ import {
 import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
-import { Feather } from '@expo/vector-icons';
 
-const RegisterScreen = () => {
-	const [view, setView] = useState(false);
-	console.log(view);
+import { connect } from 'react-redux';
+import { go } from '../store/actions/authActions';
+
+const RegisterScreen = ({ navigation, go }) => {
+	const [state, setState] = useState({
+		email: '',
+		phone: '',
+	});
+
+	// console.log(registerData);
+	const handleChange = (name, value) => {
+		setState({
+			...state,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = () => {
+		go(state);
+	};
 	return (
 		<View style={styles.container}>
 			<View>
@@ -24,6 +40,8 @@ const RegisterScreen = () => {
 						placeholder="Enter your email"
 						placeholderTextColor="#cacaca"
 						autoCapitalize="none"
+						onChangeText={(text) => handleChange('email', text)}
+						value={state.email}
 						autoCorrect={false}
 						style={styles.input}
 					/>
@@ -35,7 +53,9 @@ const RegisterScreen = () => {
 					<TextInput
 						placeholder="Enter your phone number"
 						placeholderTextColor="#cacaca"
+						onChangeText={(text) => handleChange('phone', text)}
 						autoCapitalize="none"
+						value={state.phone}
 						autoCorrect={false}
 						style={styles.input}
 					/>
@@ -44,18 +64,40 @@ const RegisterScreen = () => {
 				<Text style={styles.error}>User already exists</Text>
 			</View>
 			<View style={styles.btnContainer}>
-				<Button label="Next" />
+				<Button
+					label="Next"
+					handler={() => {
+						handleSubmit();
+						navigation.navigate('Register2');
+					}}
+				/>
 			</View>
 
 			<View style={styles.txtContainer}>
 				<Text style={styles.text}>Already have an account ? </Text>
-				<Text style={[styles.text, styles.signupTxt]}>LOG IN</Text>
+				<Text
+					style={[styles.text, styles.signupTxt]}
+					onPress={() => navigation.navigate('Log in')}
+				>
+					LOG IN
+				</Text>
 			</View>
 		</View>
 	);
 };
 
-export default RegisterScreen;
+const mapStateToProps = ({ auth }) => {
+	// console.log(auth);
+	return {
+		registerData: auth.registerData,
+	};
+};
+
+const mapDispatchToProps = {
+	go,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {
