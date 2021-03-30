@@ -2,17 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
 import HomeScreen from '../screens/HomeScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ModalScreen from '../screens/ModalScreen';
 import AddMoneyScreen from '../screens/AddMoneyScreen';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+
 
 const MainNavigator = () => {
 	return (
@@ -57,4 +53,4 @@ const MainNavigator = () => {
 
 export default MainNavigator;
 
-const styles = StyleSheet.create({});
+
