@@ -9,7 +9,7 @@ import {
 import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
-import { Feather } from '@expo/vector-icons';
+
 import { connect } from 'react-redux';
 import { go } from '../store/actions/authActions';
 
@@ -19,6 +19,7 @@ const RegisterScreen = ({ navigation, go }) => {
 		phone: '',
 	});
 
+	// console.log(registerData);
 	const handleChange = (name, value) => {
 		setState({
 			...state,
@@ -28,11 +29,6 @@ const RegisterScreen = ({ navigation, go }) => {
 
 	const handleSubmit = () => {
 		go(state);
-		// setState({
-		// 	...state,
-		// 	email: '',
-		// 	phone: '',
-		// });
 	};
 	return (
 		<View style={styles.container}>
@@ -90,7 +86,12 @@ const RegisterScreen = ({ navigation, go }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ auth }) => {
+	// console.log(auth);
+	return {
+		registerData: auth.registerData,
+	};
+};
 
 const mapDispatchToProps = {
 	go,

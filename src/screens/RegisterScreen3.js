@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+	StyleSheet,
+	Text,
+	View,
+	TextInput,
+	YellowBox,
+	LogBox,
+} from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
 import { Colors, Spacing } from '../index';
-import { go3, all } from '../store/actions/authActions';
+import { go, signUp } from '../store/actions/authActions';
 
-const RegisterScreen3 = ({ go3, all }) => {
+// YellowBox.ignoreWarnings(['Setting a timer']);
+// const _console = { ...console };
+// console.warn = (message) => {
+// 	if (message.indexOf('Setting a timer') <= -1) {
+// 		_console.warn(message);
+// 	}
+// };
+
+const RegisterScreen3 = ({ go, signUp, registerData }) => {
+	useEffect(() => {
+		LogBox.ignoreLogs(['Setting a timer ']);
+		console.log('effect');
+	}, [LogBox]);
+
 	const [tagName, setTagName] = useState('');
 
 	const handleChange = (name, value) => {
-		setTagName({
-			[name]: value,
-		});
+		setTagName(value);
 	};
 
 	const handleSubmit = () => {
-		go3(tagName);
-		all();
+		go({ tagName });
+		signUp();
 	};
 	return (
 		<View style={styles.container}>
@@ -45,11 +63,13 @@ const RegisterScreen3 = ({ go3, all }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ auth }) => ({
+	registerData: auth.registerData,
+});
 
 const mapDispatchToProps = {
-	go3,
-	all,
+	go,
+	signUp,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen3);

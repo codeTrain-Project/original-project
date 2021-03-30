@@ -10,10 +10,10 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
-import { go2 } from '../store/actions/authActions';
+import { go } from '../store/actions/authActions';
 import { connect } from 'react-redux';
 
-const RegisterScreen = ({ navigation, go2 }) => {
+const RegisterScreen = ({ navigation, go }) => {
 	const [view, setView] = useState(false);
 	const [state, setState] = useState({
 		password: '',
@@ -28,8 +28,8 @@ const RegisterScreen = ({ navigation, go2 }) => {
 	};
 
 	const handleSubmit = () => {
-		go2(state);
-	};
+		go(state);
+	}; 
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -127,7 +127,7 @@ const RegisterScreen = ({ navigation, go2 }) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
-	go2,
+	go,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
