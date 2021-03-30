@@ -6,45 +6,62 @@ import User from '../components/User';
 import { Spacing, Colors } from '../index';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import TopUpDialogBox from './TopUpDialogBox';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
 	return (
 		<View style={styles.container}>
-			<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
-			<View style={styles.txtContainer}>
-				<Text style={styles.amount}> GH₵0.00</Text>
-				<Text style={styles.subHeading}>Money Balance</Text>
-			</View>
-			<View style={styles.btnContainer}>
-				<Button
-					label="Top up Money"
-					btnColor="#E1E1E1"
-					textColor="black"
-					width="48%"
-				/>
-				<Button
-					label="Cash Out"
-					btnColor="#E1E1E1"
-					textColor="black"
-					width="48%"
-				/>
-			</View>
-			<View style={styles.linkContainer}>
-				<View style={styles.link}>
-					<View>
-						<View style={styles.linkBox}></View>
-						<Entypo name="plus" size={24} color="#A6A2A2" style={styles.icon} />
-					</View>
-					<Text style={styles.text}>Link Bank</Text>
+			<Ionicons
+				name="md-close"
+				size={30}
+				color="black"
+				style={styles.back}
+				onPress={() => navigation.navigate('Main')}
+			/>
+			<View style={styles.content}>
+				<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} mt={-40} />
+				<View style={styles.txtContainer}>
+					<Text style={styles.amount}> GH₵0.00</Text>
+					<Text style={styles.subHeading}>Money Balance</Text>
 				</View>
-				<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
+				<View style={styles.btnContainer}>
+					<Button
+						label="Top up Money"
+						btnColor="#E1E1E1"
+						textColor="black"
+						width="48%"
+						handler={() => navigation.navigate('Modal')}
+					/>
+					<Button
+						label="Cash Out"
+						btnColor="#E1E1E1"
+						textColor="black"
+						width="48%"
+						handler={() => navigation.navigate('Modal')}
+					/>
+				</View>
+				<View style={styles.linkContainer}>
+					<View style={styles.link}>
+						<View>
+							<View style={styles.linkBox}></View>
+							<Entypo
+								name="plus"
+								size={24}
+								color="#A6A2A2"
+								style={styles.icon}
+							/>
+						</View>
+						<Text style={styles.text}>Link Bank</Text>
+					</View>
+					<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
+				</View>
+				{/* TODO */}
+				{/* MAKE THE WIDTH COVER FULL SCREEN/ */}
+				{/* <Menu
+					backgroundColor={Colors.WHITE}
+					color="black"
+					navigation={navigation}
+				/> */}
 			</View>
-			{/* <View style={styles.bacground}></View> */}
-			{/* TODO */}
-			{/* MAKE THE WIDTH COVER FULL SCREEN/ */}
-			<Menu backgroundColor={Colors.WHITE} color="black" />
-			{/* <TopUpDialogBox /> */}
 		</View>
 	);
 }
@@ -52,7 +69,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
+		backgroundColor: Colors.WHITE,
+	},
+	back: {
+		marginTop: '20%',
+		marginLeft: Spacing.HORIZONTAL_WHITE_SPACE,
+	},
+	content: {
+		flex: 1,
 		marginTop: '25%',
 	},
 	txtContainer: {

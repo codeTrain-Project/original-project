@@ -2,36 +2,62 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
 import HomeScreen from '../screens/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ModalScreen from '../screens/ModalScreen';
+import AddMoneyScreen from '../screens/AddMoneyScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../index';
+import HomeStack from './HomeStack';
+import HomeTabs from './HomeTabs';
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const Stack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				screenOptions={{
-					header: () => null,
+			<Tab.Navigator
+				initialRouteName="Main"
+				screenOptions={({ route }) => ({
+					tabBarIcon: ({ focused, color, size }) => {
+						let iconName;
+
+						if (route.name === 'Home') {
+							iconName = focused
+								? 'ios-information-circle'
+								: 'ios-information-circle-outline';
+						} else if (route.name === 'Main') {
+							return <Text style={{ fontSize: size, color }}>₵</Text>;
+							// iconName = focused ? 'ios-list-box' : 'ios-list';
+						} else {
+							iconName = focused ? 'ios-list-box' : 'ios-list';
+						}
+
+						// You can return any component that you like here!
+						// if (route.name === 'Main') {
+						// 	return <Text style={{ fontSize: size, color }}>₵</Text>;
+						// }
+						return <Ionicons name={iconName} size={size} color={color} />;
+					},
+				})}
+				tabBarOptions={{
+					activeTintColor: Colors.PRIMARY,
+					inactiveTintColor: 'gray',
+					showLabel: false,
 				}}
 			>
-				<Stack.Screen
-					name="  Welcome"
-					component={WelcomeScreen}
+				<Tab.Screen
 					options={{
-						header: () => null,
+						tabBarVisible: false,
 					}}
+					name="Home"
+					component={HomeStack}
 				/>
-				<Stack.Screen name="Register" component={RegisterScreen} />
-				<Stack.Screen name="Log in" component={LoginScreen} />
-				<Stack.Screen name="Main" component={MainScreen} />
-			</Stack.Navigator>
-
+				<Tab.Screen name="Main" component={MainScreen} />
+				<Tab.Screen name="Activity" component={AddMoneyScreen} />
+			</Tab.Navigator>
 		</NavigationContainer>
 	);
 };

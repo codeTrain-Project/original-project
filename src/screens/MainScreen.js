@@ -20,7 +20,7 @@ const MainScreen = ({ navigation }) => {
 					</View>
 				</View>
 
-				<Menu border={0} />
+				{/* <Menu border={0} navigation={navigation} /> */}
 			</View>
 		</View>
 	);

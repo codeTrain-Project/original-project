@@ -11,7 +11,7 @@ import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
 	const [view, setView] = useState(false);
 	console.log(view);
 	return (
@@ -44,12 +44,17 @@ const RegisterScreen = () => {
 				<Text style={styles.error}>User already exists</Text>
 			</View>
 			<View style={styles.btnContainer}>
-				<Button label="Next" />
+				<Button label="Next" handler={() => navigation.navigate('Register2')} />
 			</View>
 
 			<View style={styles.txtContainer}>
 				<Text style={styles.text}>Already have an account ? </Text>
-				<Text style={[styles.text, styles.signupTxt]}>LOG IN</Text>
+				<Text
+					style={[styles.text, styles.signupTxt]}
+					onPress={() => navigation.navigate('Log in')}
+				>
+					LOG IN
+				</Text>
 			</View>
 		</View>
 	);
