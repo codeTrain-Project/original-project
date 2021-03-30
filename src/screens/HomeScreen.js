@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
-import Menu from '../components/Menu';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
 import { Entypo } from '@expo/vector-icons';
@@ -54,13 +53,7 @@ export default function HomeScreen({ navigation }) {
 					</View>
 					<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
 				</View>
-				{/* TODO */}
-				{/* MAKE THE WIDTH COVER FULL SCREEN/ */}
-				{/* <Menu
-					backgroundColor={Colors.WHITE}
-					color="black"
-					navigation={navigation}
-				/> */}
+			
 			</View>
 		</View>
 	);
