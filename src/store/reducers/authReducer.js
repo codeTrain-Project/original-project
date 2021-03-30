@@ -1,3 +1,12 @@
+import {
+	SIGN_UP_SUCCESS,
+	SIGN_UP_START,
+	SIGN_UP_FAILURE,
+	LOGOUT_SUCCESS,
+	LOGOUT_FAILURE,
+	LOGOUT_START,
+} from '../types';
+
 const initialState = {
 	registerData: {
 		email: '',
@@ -6,34 +15,57 @@ const initialState = {
 		confirmPassword: '',
 		tagName: '',
 	},
+	signUp: {
+		error: null,
+		loading: false,
+	},
+	logout: {
+		error: null,
+		loading: false,
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'TEST':
-			console.log(state);
+			// console.log(state);
 			return {
-				...state.registerData,
-				email: payload.email,
-				phone: payload.phone,
+				...state,
+				registerData: { ...state.registerData, ...payload },
 			};
-		case 'TEST2':
-			console.log(state);
-			return {
-				...state.registerData,
-				password: payload.password,
-				confirmPassword: payload.confirmPassword,
-			};
-		case 'TEST3':
-			console.log(state);
-			return {
-				...state.registerData,
-				tagName: payload.tagName,
-			};
-		case 'ALL':
-			console.log('state');
-			return state;
 
+		case SIGN_UP_START:
+			return {
+				...state,
+				signUp: { ...state.signUp, loading: true },
+			};
+		case SIGN_UP_SUCCESS:
+			return {
+				...state,
+				signUp: { ...state.signUp, loading: false, error: null },
+			};
+
+		case SIGN_UP_FAILURE:
+			return {
+				...state,
+				signUp: { ...state.signUp, loading: false, error: payload },
+			};
+
+		case LOGOUT_START:
+			return {
+				...state,
+				logout: { ...state.logout, loading: true },
+			};
+		case LOGOUT_SUCCESS:
+			return {
+				...state,
+				logout: { ...state.logout, loading: false, error: null },
+			};
+		case LOGOUT_FAILURE:
+			return {
+				...state,
+				logout: { ...state.logout, loading: false, error: payload },
+			};
 		default:
 			return state;
 	}
