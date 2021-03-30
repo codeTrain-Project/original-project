@@ -5,6 +5,7 @@ import { Spacing } from '../index';
 
 const User = ({ color, mt = 70, marginHorizontal = 0 }) => {
 	return (
+
 		<View
 			style={{
 				...styles.icon,

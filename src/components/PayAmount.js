@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Keyboard } from 'react-native';
-import { Colors, Spacing } from '../index';
+import { Colors, Spacing} from '../index';
 import Button from '../components/Button';
 import { Feather } from '@expo/vector-icons';
 
-export const RequestAmount = ({ heading, label }) => {
+export const PayAmount = () => {
     const [text, setText] = useState('');
 	const changeText = (newText) => {
 		setText(newText);
@@ -20,15 +20,13 @@ export const RequestAmount = ({ heading, label }) => {
         />
         <Text style={styles.headeramount}>₵20</Text>
         <Button 
-            label="Request"
+            label="Pay"
             height={25}
             width={60}
          />
-
-
         </View>
 
-<View style={styles.empty}></View>
+
 
         <View style={styles.btnContainer}>
             <Text style={styles.text}>To:</Text>
@@ -86,16 +84,11 @@ const styles = StyleSheet.create({
     },
     headericon:{
         marginTop: 25,
-    }
-    ,
+    },
 	input: {
 		fontSize:20,
         marginLeft: 5,
 	},
-    empty: {
-        borderBottomWidth: 1,
-        borderBottomColor:Colors.GRAY_LIGHT,
-    },
 	btnContainer: {
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
         flexDirection: 'row',
