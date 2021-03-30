@@ -2,11 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import AuthNav from './src/navigation/AuthNav';
 import MainNavigator from './src/navigation/index';
+import { useSelector } from 'react-redux';
 
 const MainApp = () => {
 	const [loggedIn, setLogged] = useState(false);
 
-	if (loggedIn) {
+	const auth = useSelector((state) => state.firebase.auth);
+
+	console.log(auth);
+	if (auth.uid) {
 		return (
 			<>
 				<MainNavigator />
