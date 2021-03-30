@@ -2,15 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import MainScreen from '../screens/MainScreen';
-import HomeScreen from '../screens/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ModalScreen from '../screens/ModalScreen';
 import AddMoneyScreen from '../screens/AddMoneyScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../index';
 import HomeStack from './HomeStack';
-import HomeTabs from './HomeTabs';
+import MainStack from './MainStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +52,7 @@ const MainNavigator = () => {
 					name="Home"
 					component={HomeStack}
 				/>
-				<Tab.Screen name="Main" component={MainScreen} />
+				<Tab.Screen name="Main" component={MainStack} />
 				<Tab.Screen name="Activity" component={AddMoneyScreen} />
 			</Tab.Navigator>
 		</NavigationContainer>
