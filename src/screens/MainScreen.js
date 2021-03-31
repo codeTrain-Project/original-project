@@ -18,8 +18,18 @@ const MainScreen = ({ navigation }) => {
 				<View style={styles.keyContainer}>
 					<KeyboardComponent />
 					<View style={styles.btnContainer}>
-						<Button label="Request" width="48%" btnColor="#12AA73" />
-						<Button label="Pay" width="48%" btnColor="#12AA73" />
+						<Button
+							label="Request"
+							width="48%"
+							btnColor="#12AA73"
+							handler={() => navigation.navigate('Request')}
+						/>
+						<Button
+							label="Pay"
+							width="48%"
+							btnColor="#12AA73"
+							handler={() => navigation.navigate('Pay')}
+						/>
 					</View>
 				</View>
 			</View>
