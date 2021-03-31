@@ -1,19 +1,21 @@
-import React from 'react'
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { RequestAmount } from '../components/RequestAmount';
-import {Colors} from '../index';
+import { PayAmount } from '../components/PayAmount';
+import RequestAmount from '../components/RequestAmount';
+import { Colors } from '../index';
 
-export const RequestPage = () => {
-    return (
-        <View style={styles.container}>
-            <RequestAmount/>
-        </View>
-    )
-}
+const RequestPage = () => {
+	return (
+		<View style={styles.container}>
+			<PayAmount label="Request" />
+		</View>
+	);
+};
+
+export default RequestPage;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.WHITE,
 	},
 });
-
