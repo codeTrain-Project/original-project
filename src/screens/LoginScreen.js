@@ -13,7 +13,7 @@ import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { login } from '../store/actions/authActions';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, login }) => {
 	const [view, setView] = useState(false);
 	const [user, setUser] = useState({
 		email: '',
@@ -21,14 +21,14 @@ const LoginScreen = ({ navigation }) => {
 	});
 
 	const handleChange = (name, value) => {
-		setState({
-			...state,
+		setUser({
+			...user,
 			[name]: value,
 		});
 	};
 
 	const handleSubmit = () => {
-		login(state);
+		login(user);
 	};
 
 	return (
@@ -88,7 +88,7 @@ const LoginScreen = ({ navigation }) => {
 					<Text style={styles.error}>Incorrect login credentials</Text>
 				</View>
 
-				<Button label="Login" handler={() => navigation.navigate('Main')} />
+				<Button label="Login" handler={() => handleSubmit()} />
 
 				<View style={styles.txtContainer}>
 					<Text style={styles.text}>New to Handy Money ? </Text>
