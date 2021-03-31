@@ -5,6 +5,9 @@ import {
 	LOGOUT_SUCCESS,
 	LOGOUT_FAILURE,
 	LOGOUT_START,
+	LOGIN_START,
+	LOGIN_SUCCESS,
+	LOGIN_FAILURE,
 } from '../types';
 
 export const signUp = () => {
@@ -63,7 +66,6 @@ export const login = (values) => {
 				dispatch({
 					type: LOGIN_SUCCESS,
 				});
-				toastSuccess();
 			})
 			.catch((err) => {
 				dispatch({
