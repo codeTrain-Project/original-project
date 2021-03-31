@@ -9,7 +9,7 @@ const MainApp = () => {
 
 	const auth = useSelector((state) => state.firebase.auth);
 
-	console.log(auth);
+	// console.log(auth);
 	if (auth.uid) {
 		return (
 			<>
