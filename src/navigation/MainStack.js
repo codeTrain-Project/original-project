@@ -4,6 +4,7 @@ import MainScreen from '../screens/MainScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PayPage from '../screens/PayPage';
 import RequestPage from '../screens/RequestPage';
+import SuccessfulScreen from '../screens/SuccessfulScreen';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,13 @@ const MainStack = () => {
 				}}
 				name="Request"
 				component={RequestPage}
+			/>
+			<Stack.Screen
+				options={{
+					header: () => null,
+				}}
+				name="Successful"
+				component={SuccessfulScreen}
 			/>
 		</Stack.Navigator>
 	);
