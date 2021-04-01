@@ -1,4 +1,5 @@
 import React from 'react';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,6 +11,32 @@ import HomeStack from './HomeStack';
 import MainStack from './MainStack';
 
 const Tab = createBottomTabNavigator();
+
+const getTabBarVisibility = (route) => {
+	const routeName = route.state
+		? route.state.routes[route.state.index].name
+		: '';
+
+	if (routeName === 'Profile') {
+		return false;
+	}
+
+	return true;
+};
+
+const mainSetTabBarVisible = (route) => {
+	const routeName = getFocusedRouteNameFromRoute(route);
+	const hideOnScreens = ['Profile', 'Pay', 'Successful'];
+	if (hideOnScreens.indexOf(routeName) > -1) return false;
+	return true;
+};
+
+const homeSetTabBarVisible = (route) => {
+	const routeName = getFocusedRouteNameFromRoute(route);
+	const hideOnScreens = ['Modal', 'Add Money'];
+	if (hideOnScreens.indexOf(routeName) > -1) return false;
+	return true;
+};
 
 const Stack = createStackNavigator();
 const MainNavigator = () => {
@@ -46,13 +73,19 @@ const MainNavigator = () => {
 				}}
 			>
 				<Tab.Screen
-					options={{
-						tabBarVisible: false,
-					}}
+					options={({ route }) => ({
+						tabBarVisible: homeSetTabBarVisible(route),
+					})}
 					name="Home"
 					component={HomeStack}
 				/>
-				<Tab.Screen name="Main" component={MainStack} />
+				<Tab.Screen
+					name="Main"
+					component={MainStack}
+					options={({ route }) => ({
+						tabBarVisible: mainSetTabBarVisible(route),
+					})}
+				/>
 				<Tab.Screen name="Activity" component={AddMoneyScreen} />
 			</Tab.Navigator>
 		</NavigationContainer>
