@@ -4,10 +4,10 @@ import { PayAmount } from '../components/PayAmount';
 import RequestAmount from '../components/RequestAmount';
 import { Colors } from '../index';
 
-const RequestPage = () => {
+const RequestPage = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<PayAmount label="Request" />
+			<PayAmount navigation={navigation} label="Request" handler = {() => console.log('Request') } />
 		</View>
 	);
 };
