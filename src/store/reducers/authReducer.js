@@ -28,7 +28,6 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'TEST':
-			// console.log(state);
 			return {
 				...state,
 				registerData: { ...state.registerData, ...payload },

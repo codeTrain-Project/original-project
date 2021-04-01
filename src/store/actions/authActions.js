@@ -23,15 +23,29 @@ export const signUp = () => {
 			.createUserWithEmailAndPassword(email, password)
 			.then((res) => {
 				// console.log(res, 'response');
-				return firestore.collection(`users`).doc(res.user.uid).set({
-					email: email,
-					phone: phone,
-					password: password,
-					tagName: tagName,
-					dateJoined: new Date(),
-					profileImg: '',
-				});
+				return firestore
+					.collection(`users`)
+					.doc(res.user.uid)
+					.set({
+						email: email,
+						phone: phone,
+						password: password,
+						tagName: tagName,
+						dateJoined: new Date(),
+						profileImg: '',
+					})
+					.then(() => {
+						// console.log(res, 'response');
+						return firestore.collection(`accounts`).doc(res.user.uid).set({
+							user: res.user.uid,
+							tagHolder: tagName,
+							dateCreated: new Date(),
+							balance: 50000,
+							updatedAt: new Date(),
+						});
+					});
 			})
+
 			// .then(() => {
 			// 	dispatch({ type: SIGN_UP_SUCCESS });
 			// })
