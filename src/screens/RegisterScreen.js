@@ -9,68 +9,97 @@ import {
 import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
+import { useForm, Controller } from 'react-hook-form';
 
 import { connect } from 'react-redux';
-import { go } from '../store/actions/authActions';
+import { update, all } from '../store/actions/authActions';
 
-const RegisterScreen = ({ navigation, go }) => {
-	const [state, setState] = useState({
-		email: '',
-		phone: '',
-	});
+const RegisterScreen = ({ navigation, update, all }) => {
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-	// console.log(registerData);
-	const handleChange = (name, value) => {
-		setState({
-			...state,
-			[name]: value,
-		});
+	const onSubmit = (values) => {
+		update(values);
+		all();
+		navigation.navigate('Register2');
 	};
 
-	const handleSubmit = () => {
-		go(state);
-	};
 	return (
 		<View style={styles.container}>
 			<View>
 				<View style={styles.formInput}>
 					<Text style={styles.label}>Email</Text>
 
-					<TextInput
-						placeholder="Enter your email"
-						placeholderTextColor="#cacaca"
-						autoCapitalize="none"
-						onChangeText={(text) => handleChange('email', text)}
-						value={state.email}
-						autoCorrect={false}
-						style={styles.input}
+					<Controller
+						name="email"
+						control={control}
+						rules={{
+							required: 'This is required',
+							pattern: /^^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i,
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<TextInput
+								placeholder="Enter your email"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								onBlur={onBlur}
+								style={styles.input}
+								onChangeText={(value) => onChange(value)}
+								value={value}
+							/>
+						)}
 					/>
 				</View>
+
+				{errors.email?.type === 'pattern' && (
+					<Text style={styles.error}>Email is poorly formatted.</Text>
+				)}
+				{errors.email?.type === 'required' && (
+					<Text style={styles.error}>Email is required.</Text>
+				)}
 
 				<View style={styles.formInput}>
 					<Text style={styles.label}>Phone</Text>
 
-					<TextInput
-						placeholder="Enter your phone number"
-						placeholderTextColor="#cacaca"
-						onChangeText={(text) => handleChange('phone', text)}
-						autoCapitalize="none"
-						value={state.phone}
-						autoCorrect={false}
-						style={styles.input}
+					<Controller
+						name="phone"
+						control={control}
+						rules={{
+							required: 'This is required',
+							minLength: 10,
+							pattern: /^\d+$/,
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<TextInput
+								placeholder="Enter your phone number"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								onBlur={onBlur}
+								style={styles.input}
+								onChangeText={(value) => onChange(value)}
+								value={value}
+							/>
+						)}
 					/>
 				</View>
 
-				<Text style={styles.error}>User already exists</Text>
+				{errors.phone?.type === 'pattern' && (
+					<Text style={styles.error}>Phone number incorrect.</Text>
+				)}
+				{errors.phone?.type === 'minLength' && (
+					<Text style={styles.error}>Phone number incorrect.</Text>
+				)}
+				{errors.email?.type === 'required' && (
+					<Text style={styles.error}>Email is required.</Text>
+				)}
 			</View>
 			<View style={styles.btnContainer}>
-				<Button
-					label="Next"
-					handler={() => {
-						handleSubmit();
-						navigation.navigate('Register2');
-					}}
-				/>
+				<Button label="Next" handler={handleSubmit(onSubmit)} />
 			</View>
 
 			<View style={styles.txtContainer}>
@@ -94,7 +123,8 @@ const mapStateToProps = ({ auth }) => {
 };
 
 const mapDispatchToProps = {
-	go,
+	update,
+	all,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
