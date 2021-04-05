@@ -15,9 +15,9 @@ export const signUp = () => {
 		const firebase = getFirebase();
 		const firestore = getFirestore();
 
-		const { email, phone, password, tagName } = getState().auth.registerData;
+		const { email, phone, password, tag } = getState().auth.registerData;
 		// console.log(email, phone, password, tagName);
-		// dispatch({ type: SIGN_UP_START });
+		dispatch({ type: SIGN_UP_START });
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(email, password)
@@ -30,19 +30,22 @@ export const signUp = () => {
 						email: email,
 						phone: phone,
 						password: password,
-						tagName: tagName,
+						tagName: tag,
 						dateJoined: new Date(),
 						profileImg: '',
 					})
 					.then(() => {
 						// console.log(res, 'response');
-						return firestore.collection(`accounts`).doc(res.user.uid).set({
+
+						firestore.collection(`accounts`).doc(res.user.uid).set({
 							user: res.user.uid,
-							tagHolder: tagName,
+							tagHolder: tag,
 							dateCreated: new Date(),
 							balance: 50000,
 							updatedAt: new Date(),
 						});
+
+						dispatch({ type: SIGN_UP_SUCCESS });
 					});
 			})
 
@@ -56,9 +59,9 @@ export const signUp = () => {
 	};
 };
 
-export const go = (data) => {
+export const update = (data) => {
 	return {
-		type: 'TEST',
+		type: 'UPDATE',
 		payload: data,
 	};
 };
@@ -75,7 +78,7 @@ export const login = (values) => {
 		dispatch({ type: LOGIN_START });
 		firebase
 			.auth()
-			.signInWithEmailAndPassword(values.email, values.password)
+			.signInWithEmailAndPassword(values.email.trim(), values.password.trim())
 			.then(() => {
 				dispatch({
 					type: LOGIN_SUCCESS,
