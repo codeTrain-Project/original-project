@@ -20,8 +20,8 @@ export default (state = initialState, { type, payload }) => {
 				keyboardData: payload,
 			};
 
-		case 'ALL':
-			console.log('checking state from reducer', state);
+		// case 'ALL':
+		// 	console.log('checking state from reducer', state);
 
 		default:
 			return state;
