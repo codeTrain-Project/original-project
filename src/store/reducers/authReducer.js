@@ -8,6 +8,7 @@ import {
 	LOGIN_START,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE,
+	CLEAN,
 } from '../types';
 
 const initialState = {
@@ -34,13 +35,28 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
+		case CLEAN: {
+			return {
+				...state,
+
+				login: { ...state.login, loading: false, error: null },
+				logout: { ...state.logout, loading: false, error: null },
+				register: { ...state.register, handleError: false },
+				signUp: {
+					...state.signUp,
+					loading: false,
+					error: null,
+				},
+			};
+		}
+
 		case 'UPDATE':
 			return {
 				...state,
 				registerData: { ...state.registerData, ...payload },
 			};
 		case 'ALL':
-			console.log('from reducer', state.registerData);
+			// console.log('from reducer', state.registerData);
 			return state;
 		case LOGIN_START:
 			return {
