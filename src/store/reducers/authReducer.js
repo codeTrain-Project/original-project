@@ -5,6 +5,10 @@ import {
 	LOGOUT_SUCCESS,
 	LOGOUT_FAILURE,
 	LOGOUT_START,
+	LOGIN_START,
+	LOGIN_SUCCESS,
+	LOGIN_FAILURE,
+	CLEAN,
 } from '../types';
 
 const initialState = {
@@ -13,7 +17,7 @@ const initialState = {
 		phone: '',
 		password: '',
 		confirmPassword: '',
-		tagName: '',
+		tag: '',
 	},
 	signUp: {
 		error: null,
@@ -23,17 +27,52 @@ const initialState = {
 		error: null,
 		loading: false,
 	},
+	login: {
+		error: null,
+		loading: false,
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'TEST':
-			// console.log(state);
+		case CLEAN: {
+			return {
+				...state,
+
+				login: { ...state.login, loading: false, error: null },
+				logout: { ...state.logout, loading: false, error: null },
+				register: { ...state.register, handleError: false },
+				signUp: {
+					...state.signUp,
+					loading: false,
+					error: null,
+				},
+			};
+		}
+
+		case 'UPDATE':
 			return {
 				...state,
 				registerData: { ...state.registerData, ...payload },
 			};
-
+		case 'ALL':
+			// console.log('from reducer', state.registerData);
+			return state;
+		case LOGIN_START:
+			return {
+				...state,
+				login: { ...state.login, loading: true },
+			};
+		case LOGIN_SUCCESS:
+			return {
+				...state,
+				login: { ...state.login, loading: false, error: null },
+			};
+		case LOGIN_FAILURE:
+			return {
+				...state,
+				login: { ...state.login, loading: false, error: payload },
+			};
 		case SIGN_UP_START:
 			return {
 				...state,

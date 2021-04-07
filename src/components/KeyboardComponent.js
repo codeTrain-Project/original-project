@@ -9,23 +9,30 @@ import {
 } from 'react-native';
 import VirtualKeyboard from 'react-native-virtual-keyboard';
 import { Colors } from '../index';
-import { useKeyboard } from '@react-native-community/hooks';
+import { connect } from 'react-redux';
+import { keyboardUpdate, all } from '../store/actions/transactionActions';
 
 const KeyboardComponent = ({
 	btnColor = Colors.WHITE,
 	txtColor = Colors.WHITE,
+	keyboardUpdate,
+	all,
+	keyboardData,
 }) => {
-	const [text, setText] = useState('0');
+	// const [text, setText] = useState('0');
 	const changeText = (newText) => {
-		setText(newText);
+		keyboardUpdate(newText);
+		// all();
 	};
+
+	// console.log('from keyboard', keyboardData);
 
 	return (
 		<View>
 			<TextInput
 				autoCorrect={false}
 				style={{ ...styles.input, color: txtColor }}
-				defaultValue={`GH₵ ${text}`}
+				defaultValue={`GH₵ ${keyboardData}`}
 				onSubmitEditing={Keyboard.dismiss}
 			/>
 
@@ -40,7 +47,18 @@ const KeyboardComponent = ({
 	);
 };
 
-export default KeyboardComponent;
+const mapStateToProps = ({ transaction }) => {
+	// console.log('Map State to props', transaction);
+	return {
+		keyboardData: transaction.keyboardData,
+	};
+};
+const mapDispatchToProps = {
+	keyboardUpdate,
+	all,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(KeyboardComponent);
 
 const styles = StyleSheet.create({
 	text: {

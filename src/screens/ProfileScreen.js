@@ -7,8 +7,12 @@ import ProfileContent from '../components/ProfileContent';
 import TransparentBtn from '../components/TransparentBtn';
 import { signOut } from '../store/actions/authActions';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
-const ProfileScreen = ({ navigation, signOut }) => {
+const ProfileScreen = ({ navigation, signOut, users, auth }) => {
+	const user = users ? users.find((user) => user.id === auth.uid) : null;
+
 	const handleSubmit = () => {
 		signOut();
 	};
@@ -34,8 +38,12 @@ const ProfileScreen = ({ navigation, signOut }) => {
 							style={styles.icon}
 						/>
 					</View>
-					<Text style={styles.usrname}>Huzaifah Attah</Text>
-					<Text style={styles.tagname}>₵huzaifah</Text>
+					{user ? (
+						<>
+							<Text style={styles.usrname}>{user.tagName}</Text>
+							<Text style={styles.tagname}>{user.email}</Text>
+						</>
+					) : null}
 				</View>
 
 				<View style={styles.content}>
@@ -53,13 +61,19 @@ const ProfileScreen = ({ navigation, signOut }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+	users: state.firestore.ordered.users,
+	auth: state.firebase.auth,
+});
 
 const mapDispatchToProps = {
 	signOut,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([{ collection: 'users' }])
+)(ProfileScreen);
 
 const styles = StyleSheet.create({
 	container: {

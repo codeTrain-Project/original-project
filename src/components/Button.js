@@ -10,21 +10,40 @@ const Button = ({
 	height = 47,
 	borderRadius = 200,
 	handler,
+	valid = true,
 }) => {
-	return (
-		<TouchableOpacity
-			style={{
-				...styles.btnContainer,
-				width: width,
-				backgroundColor: btnColor,
-				height,
-				borderRadius,
-			}}
-			onPress={() => handler()}
-		>
-			<Text style={{ ...styles.label, color: textColor }}>{label}</Text>
-		</TouchableOpacity>
-	);
+	if (valid) {
+		return (
+			<TouchableOpacity
+				style={{
+					...styles.btnContainer,
+					width: width,
+					backgroundColor: btnColor,
+					height,
+					borderRadius,
+				}}
+				onPress={() => handler()}
+			>
+				<Text style={{ ...styles.label, color: textColor }}>{label}</Text>
+			</TouchableOpacity>
+		);
+	} else {
+		return (
+			<TouchableOpacity
+				style={{
+					...styles.btnContainer,
+					width: width,
+					backgroundColor: btnColor,
+					height,
+					borderRadius,
+				}}
+				// valid={valid}
+				onPress={() => handler()}
+			>
+				<Text style={{ ...styles.label, color: textColor }}>{label}</Text>
+			</TouchableOpacity>
+		);
+	}
 };
 
 export default Button;

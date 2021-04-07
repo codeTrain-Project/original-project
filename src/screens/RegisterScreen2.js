@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -10,104 +10,153 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
-import { go } from '../store/actions/authActions';
+import { update, all } from '../store/actions/authActions';
 import { connect } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
 
-const RegisterScreen = ({ navigation, go }) => {
+const RegisterScreen = ({ navigation, update, all }) => {
 	const [view, setView] = useState(false);
-	const [state, setState] = useState({
-		password: '',
-		confirmPassword: '',
-	});
 
-	const handleChange = (name, value) => {
-		setState({
-			...state,
-			[name]: value,
-		});
+	const {
+		control,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+
+	const password = useRef({});
+	password.current = watch('password', '');
+
+	const onSubmit = (values) => {
+		update(values);
+		all();
+		navigation.navigate('Register3');
 	};
 
-	const handleSubmit = () => {
-		go(state);
-	}; 
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
 				<View>
 					<View style={styles.formInput}>
 						<Text style={styles.label}>Password</Text>
-						<View style={styles.passwordContainer}>
-							<TextInput
-								placeholder="Enter your password"
-								placeholderTextColor="#cacaca"
-								autoCapitalize="none"
-								autoCorrect={false}
-								value={state.password}
-								onChangeText={(text) => handleChange('password', text)}
-								secureTextEntry={!view}
-								style={styles.input}
-							/>
 
-							{view ? (
-								<TouchableOpacity
-									onPress={() => setView(false)}
-									style={styles.icon}
-								>
-									<Feather name="eye" size={21} color="black" />
-								</TouchableOpacity>
-							) : (
-								<TouchableOpacity
-									onPress={() => setView(true)}
-									style={styles.icon}
-								>
-									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-								</TouchableOpacity>
+						<Controller
+							name="password"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 8,
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<View style={styles.passwordContainer}>
+									<TextInput
+										placeholder="Enter your password"
+										placeholderTextColor="#a6a2a2"
+										autoCapitalize="none"
+										autoCorrect={false}
+										onBlur={onBlur}
+										secureTextEntry={!view}
+										style={styles.input}
+										value={value}
+										onChangeText={(value) => onChange(value)}
+									/>
+
+									{view ? (
+										<TouchableOpacity
+											onPress={() => setView(false)}
+											style={styles.icon}
+										>
+											<Feather name="eye" size={21} color="black" />
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											onPress={() => setView(true)}
+											style={styles.icon}
+										>
+											<Feather
+												name="eye-off"
+												size={21}
+												color={Colors.GRAY_DARK}
+											/>
+										</TouchableOpacity>
+									)}
+								</View>
 							)}
-						</View>
+						/>
 					</View>
+					{errors.password?.type === 'required' && (
+						<Text style={styles.error}>Password is required.</Text>
+					)}
+
+					{errors.password?.type === 'minLength' && (
+						<Text style={styles.error}>Password is at least 8 characters.</Text>
+					)}
 
 					<View style={styles.formInput}>
 						<Text style={styles.label}>Confirm Password</Text>
-						<View style={styles.passwordContainer}>
-							<TextInput
-								placeholder="Enter your password"
-								placeholderTextColor="#cacaca"
-								autoCapitalize="none"
-								autoCorrect={false}
-								value={state.confirmPassword}
-								onChangeText={(text) => handleChange('confirmPassword', text)}
-								secureTextEntry={!view}
-								style={styles.input}
-							/>
 
-							{view ? (
-								<TouchableOpacity
-									onPress={() => setView(false)}
-									style={styles.icon}
-								>
-									<Feather name="eye" size={21} color="black" />
-								</TouchableOpacity>
-							) : (
-								<TouchableOpacity
-									onPress={() => setView(true)}
-									style={styles.icon}
-								>
-									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-								</TouchableOpacity>
+						<Controller
+							name="confirmPassword"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 8,
+								validate: (value) =>
+									value === password.current || 'The passwords do not match',
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<View style={styles.passwordContainer}>
+									<TextInput
+										placeholder="Enter your password"
+										placeholderTextColor="#a6a2a2"
+										autoCapitalize="none"
+										autoCorrect={false}
+										onBlur={onBlur}
+										secureTextEntry={!view}
+										style={styles.input}
+										value={value}
+										onChangeText={(value) => onChange(value)}
+									/>
+									{view ? (
+										<TouchableOpacity
+											onPress={() => setView(false)}
+											style={styles.icon}
+										>
+											<Feather name="eye" size={21} color="black" />
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											onPress={() => setView(true)}
+											style={styles.icon}
+										>
+											<Feather
+												name="eye-off"
+												size={21}
+												color={Colors.GRAY_DARK}
+											/>
+										</TouchableOpacity>
+									)}
+								</View>
 							)}
-						</View>
+						/>
 					</View>
 
-					<Text style={styles.error}>Password does not match</Text>
+					{errors.confirmPassword?.type === 'validate' && (
+						<Text style={styles.error}>Passwords do not match. </Text>
+					)}
+
+					{errors.confirmPassword?.type === 'required' && (
+						<Text style={styles.error}>Password is required.</Text>
+					)}
+
+					{errors.confirmPassword?.type === 'minLength' && (
+						<Text style={styles.error}>
+							Password must be at least 8 characters.
+						</Text>
+					)}
 				</View>
 				<View style={styles.btnContainer}>
-					<Button
-						label="Register"
-						handler={() => {
-							handleSubmit();
-							navigation.navigate('Register3');
-						}}
-					/>
+					<Button label="Register" handler={handleSubmit(onSubmit)} />
 				</View>
 
 				<View style={styles.txtContainer}>
@@ -124,13 +173,12 @@ const RegisterScreen = ({ navigation, go }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
-
 const mapDispatchToProps = {
-	go,
+	update,
+	all,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
+export default connect(null, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {

@@ -4,8 +4,20 @@ import Button from '../components/Button';
 import KeyboardComponent from '../components/KeyboardComponent';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
+import { useSelector } from 'react-redux';
 
 const MainScreen = ({ navigation }) => {
+	const trans = useSelector((state) => state.transaction);
+
+	const func = () => {
+		if (trans.keyboardData < 1) return;
+		navigation.navigate('Pay');
+	};
+	const funct = () => {
+		if (trans.keyboardData < 1) return;
+		navigation.navigate('Request');
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -18,8 +30,13 @@ const MainScreen = ({ navigation }) => {
 				<View style={styles.keyContainer}>
 					<KeyboardComponent />
 					<View style={styles.btnContainer}>
-						<Button label="Request" width="48%" btnColor="#12AA73" />
-						<Button label="Pay" width="48%" btnColor="#12AA73" />
+						<Button
+							label="Request"
+							width="48%"
+							btnColor="#12AA73"
+							handler={funct}
+						/>
+						<Button label="Pay" width="48%" btnColor="#12AA73" handler={func} />
 					</View>
 				</View>
 			</View>

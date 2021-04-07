@@ -5,6 +5,7 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
+	ActivityIndicator,
 } from 'react-native';
 import Button from '../components/Button';
 import { Typography, Colors } from '../index';
@@ -12,23 +13,22 @@ import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { login } from '../store/actions/authActions';
+import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, login }) => {
+	const authLogin = useSelector((state) => state.auth.login);
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
 	const [view, setView] = useState(false);
-	const [user, setUser] = useState({
-		email: '',
-		password: '',
-	});
 
-	const handleChange = (name, value) => {
-		setState({
-			...state,
-			[name]: value,
-		});
-	};
-
-	const handleSubmit = () => {
-		login(state);
+	const onSubmit = (values) => {
+		login(values);
 	};
 
 	return (
@@ -42,53 +42,101 @@ const LoginScreen = ({ navigation }) => {
 				<View>
 					<View style={styles.formInput}>
 						<Text style={styles.label}>Email</Text>
-
-						<TextInput
-							placeholder="Enter your email"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							style={styles.input}
-							value={user.email}
-							onChangeText={(text) => handleChange('email', text)}
+						<Controller
+							name="email"
+							control={control}
+							rules={{
+								required: 'This is required',
+								pattern: /^^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i,
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<TextInput
+									placeholder="Enter your email"
+									placeholderTextColor="#cacaca"
+									autoCapitalize="none"
+									autoCorrect={false}
+									onBlur={onBlur}
+									style={styles.input}
+									onChangeText={(value) => onChange(value)}
+									value={value}
+								/>
+							)}
 						/>
 					</View>
 
+					{errors.email?.type === 'pattern' && (
+						<Text style={styles.error}>Email is poorly formatted.</Text>
+					)}
+					{errors.email?.type === 'required' && (
+						<Text style={styles.error}>Email is required.</Text>
+					)}
 					<View style={styles.formInput}>
 						<Text style={styles.label}>Password</Text>
-						<View style={styles.passwordContainer}>
-							<TextInput
-								placeholder="Enter your password"
-								placeholderTextColor="#a6a2a2"
-								autoCapitalize="none"
-								autoCorrect={false}
-								secureTextEntry={!view}
-								style={styles.input}
-								value={user.password}
-								onChangeText={(text) => handleChange('password', text)}
-							/>
 
-							{view ? (
-								<TouchableOpacity
-									onPress={() => setView(false)}
-									style={styles.icon}
-								>
-									<Feather name="eye" size={21} color="black" />
-								</TouchableOpacity>
-							) : (
-								<TouchableOpacity
-									onPress={() => setView(true)}
-									style={styles.icon}
-								>
-									<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-								</TouchableOpacity>
+						<Controller
+							name="password"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 8,
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<View style={styles.passwordContainer}>
+									<TextInput
+										placeholder="Enter your password"
+										placeholderTextColor="#a6a2a2"
+										autoCapitalize="none"
+										autoCorrect={false}
+										onBlur={onBlur}
+										secureTextEntry={!view}
+										style={styles.input}
+										value={value}
+										onChangeText={(value) => onChange(value)}
+									/>
+
+									{view ? (
+										<TouchableOpacity
+											onPress={() => setView(false)}
+											style={styles.icon}
+										>
+											<Feather name="eye" size={21} color="black" />
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											onPress={() => setView(true)}
+											style={styles.icon}
+										>
+											<Feather
+												name="eye-off"
+												size={21}
+												color={Colors.GRAY_DARK}
+											/>
+										</TouchableOpacity>
+									)}
+								</View>
 							)}
-						</View>
+						/>
 					</View>
-					<Text style={styles.error}>Incorrect login credentials</Text>
+
+					{errors.password?.type === 'required' && (
+						<Text style={styles.error}>Password is required.</Text>
+					)}
+
+					{errors.password?.type === 'minLength' && (
+						<Text style={styles.error}>
+							Password must be at least 8 characters.
+						</Text>
+					)}
+					{authLogin.error ? (
+						<Text style={styles.error}>{authLogin.error}</Text>
+					) : null}
 				</View>
 
-				<Button label="Login" handler={() => navigation.navigate('Main')} />
+				{authLogin.loading ? (
+					<ActivityIndicator size="large" color={Colors.PRIMARY} />
+				) : (
+					<Button label="Login" handler={handleSubmit(onSubmit)} />
+				)}
 
 				<View style={styles.txtContainer}>
 					<Text style={styles.text}>New to Handy Money ? </Text>

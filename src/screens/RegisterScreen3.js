@@ -4,38 +4,47 @@ import {
 	Text,
 	View,
 	TextInput,
-	YellowBox,
-	LogBox,
+	ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
 import { Colors, Spacing } from '../index';
-import { go, signUp } from '../store/actions/authActions';
+import { update, all, signUp } from '../store/actions/authActions';
+import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { useDispatch } from 'react-redux';
+import { SIGN_UP_FAILURE } from '../store/types';
 
-// YellowBox.ignoreWarnings(['Setting a timer']);
-// const _console = { ...console };
-// console.warn = (message) => {
-// 	if (message.indexOf('Setting a timer') <= -1) {
-// 		_console.warn(message);
-// 	}
-// };
+const RegisterScreen3 = ({ update, all, signUp, users }) => {
+	// console.log('usersusersusersusersusers', users);
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-const RegisterScreen3 = ({ go, signUp, registerData }) => {
-	useEffect(() => {
-		LogBox.ignoreLogs(['Setting a timer ']);
-		console.log('effect');
-	}, [LogBox]);
+	const dispatch = useDispatch();
 
-	const [tagName, setTagName] = useState('');
+	const onSubmit = async (value) => {
+		const test = await users.find((user) => user.tagName === value.tag);
+		if (test) {
+			dispatch({
+				type: SIGN_UP_FAILURE,
+				payload: 'Your tag name is already in use, try a different one',
+			});
+			return;
+		}
 
-	const handleChange = (name, value) => {
-		setTagName(value);
-	};
-
-	const handleSubmit = () => {
-		go({ tagName });
+		update(value);
+		all();
 		signUp();
 	};
+
+	const authRegister = useSelector((state) => state.auth.signUp);
+	console.log(authRegister);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -45,34 +54,68 @@ const RegisterScreen3 = ({ go, signUp, registerData }) => {
 						Your unique name for getting paid by everyone
 					</Text>
 					<View style={styles.formInput}>
-						<TextInput
-							placeholder="₵TagName"
-							placeholderTextColor="#363636"
-							autoCapitalize="none"
-							autoCorrect={false}
-							value={tagName}
-							onChangeText={(text) => handleChange('tagName', text)}
-							style={styles.input}
+						<Controller
+							name="tag"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 4,
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<TextInput
+									placeholder="₵TagName"
+									placeholderTextColor="#363636"
+									autoCapitalize="none"
+									autoCorrect={false}
+									onBlur={onBlur}
+									style={styles.input}
+									onChangeText={(value) => onChange(value)}
+									value={value}
+								/>
+							)}
 						/>
 					</View>
-				</View>
 
-				<Button label="Done" handler={() => handleSubmit()} />
+					{errors.tag?.type === 'required' && (
+						<Text style={styles.error}>Personal tag is required.</Text>
+					)}
+
+					{errors.tag?.type === 'minLength' && (
+						<Text style={styles.error}>Tag must be at least 4 characters.</Text>
+					)}
+				</View>
+				{authRegister.error ? (
+					<Text style={styles.error}>{authRegister.error}</Text>
+				) : null}
+
+				{authRegister.loading ? (
+					<ActivityIndicator size="large" color={Colors.PRIMARY} />
+				) : (
+					<Button label="Done" handler={handleSubmit(onSubmit)} />
+				)}
+
+				{/* <Button label="Done" handler={handleSubmit(onSubmit)} /> */}
 			</View>
 		</View>
 	);
 };
 
-const mapStateToProps = ({ auth }) => ({
-	registerData: auth.registerData,
-});
-
+const mapStateToProps = (state) => {
+	// console.log('statestatestatestatestate', state.firestore);
+	return {
+		users: state.firestore.ordered.users,
+	};
+};
 const mapDispatchToProps = {
-	go,
+	update,
+	all,
 	signUp,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen3);
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([{ collection: 'users' }])
+)(RegisterScreen3);
 
 const styles = StyleSheet.create({
 	container: {
@@ -97,5 +140,9 @@ const styles = StyleSheet.create({
 		textAlign: 'left',
 		fontSize: 24,
 		height: 50,
+	},
+	error: {
+		color: '#7a1515',
+		fontSize: 15,
 	},
 });

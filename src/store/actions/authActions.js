@@ -5,6 +5,10 @@ import {
 	LOGOUT_SUCCESS,
 	LOGOUT_FAILURE,
 	LOGOUT_START,
+	LOGIN_START,
+	LOGIN_SUCCESS,
+	LOGIN_FAILURE,
+	CLEAN,
 } from '../types';
 
 export const signUp = () => {
@@ -12,36 +16,54 @@ export const signUp = () => {
 		const firebase = getFirebase();
 		const firestore = getFirestore();
 
-		const { email, phone, password, tagName } = getState().auth.registerData;
+		const { email, phone, password, tag } = getState().auth.registerData;
 		// console.log(email, phone, password, tagName);
-		// dispatch({ type: SIGN_UP_START });
+		dispatch({ type: SIGN_UP_START });
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(email, password)
 			.then((res) => {
 				// console.log(res, 'response');
-				return firestore.collection(`users`).doc(res.user.uid).set({
-					email: email,
-					phone: phone,
-					password: password,
-					tagName: tagName,
-					dateJoined: new Date(),
-					profileImg: '',
-				});
+				return firestore
+					.collection(`users`)
+					.doc(res.user.uid)
+					.set({
+						email: email,
+						phone: phone,
+						password: password,
+						tagName: tag,
+						dateJoined: new Date(),
+						profileImg: '',
+					})
+					.then(() => {
+						// console.log(res, 'response');
+
+						firestore.collection(`accounts`).doc(res.user.uid).set({
+							user: res.user.uid,
+							tagHolder: tag,
+							dateCreated: new Date(),
+							balance: 50000,
+							updatedAt: new Date(),
+						});
+
+						dispatch({ type: SIGN_UP_SUCCESS });
+						dispatch({ type: CLEAN });
+					});
 			})
+
 			// .then(() => {
 			// 	dispatch({ type: SIGN_UP_SUCCESS });
 			// })
 			.catch((err) => {
-				console.log(err);
+				// console.log(err);
 				dispatch({ type: SIGN_UP_FAILURE, payload: err.message });
 			});
 	};
 };
 
-export const go = (data) => {
+export const update = (data) => {
 	return {
-		type: 'TEST',
+		type: 'UPDATE',
 		payload: data,
 	};
 };
@@ -58,12 +80,11 @@ export const login = (values) => {
 		dispatch({ type: LOGIN_START });
 		firebase
 			.auth()
-			.signInWithEmailAndPassword(values.email, values.password)
+			.signInWithEmailAndPassword(values.email.trim(), values.password.trim())
 			.then(() => {
 				dispatch({
 					type: LOGIN_SUCCESS,
 				});
-				toastSuccess();
 			})
 			.catch((err) => {
 				dispatch({
