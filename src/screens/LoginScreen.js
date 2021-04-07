@@ -27,8 +27,7 @@ const LoginScreen = ({ navigation, login }) => {
 
 	const [view, setView] = useState(false);
 
-
-	const onSubmit = (values) => {s
+	const onSubmit = (values) => {
 		login(values);
 	};
 
