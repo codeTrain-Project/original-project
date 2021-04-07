@@ -1,45 +1,44 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Keyboard } from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	View,
+	TextInput,
+	Keyboard,
+	ActivityIndicator,
+} from 'react-native';
 import { Colors, Spacing } from '../index';
 import { Ionicons } from '@expo/vector-icons';
 import PayBtn from './PayBtn';
 import TransparentBtn from './TransparentBtn';
 import { connect } from 'react-redux';
-import { transfer, clean, all } from '../store/actions/transactionActions';
+import { clean, all } from '../store/actions/transactionActions';
+import { useForm, Controller } from 'react-hook-form';
 
 const PayAmount = ({
 	navigation,
 	label,
-	action,
 	input,
-	transfer,
 	clean,
 	all,
-	transactionType,
+	transacFunc,
+	transaction,
 }) => {
-	const [state, setState] = useState({
-		receiver: '',
-		purpose: '',
-	});
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-	const handleChange = (name, value) => {
-		setState({
-			...state,
-			[name]: value,
-		});
+	function redirect() {
+		navigation.navigate('Successful');
+	}
+
+	const onSubmit = (values) => {
+		transacFunc(parseInt(input), values.receiver, values.purpose, redirect);
+		// transfer(parseInt(input), state.receiver, state.purpose, redirect);
 	};
 
-function redirect() {
-	navigation.navigate('Successful')
-}
-
-	const handleSubmit = () => {
-		// action(input, state.receiver, state.purpose);
-		// console.log(input, state.receiver, state.purpose);
-		transfer(parseInt(input), state.receiver, state.purpose, redirect);
-
-	};
-	// console.log('Mounted pay');
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -56,30 +55,63 @@ function redirect() {
 						}}
 					/>
 					<Text style={styles.headeramount}>₵{input}</Text>
-					<PayBtn label={label} handler={() => handleSubmit()} />
+					{transaction.loading ? (
+						<ActivityIndicator size="large" color={Colors.PRIMARY} />
+					) : (
+						<PayBtn label={label} handler={handleSubmit(onSubmit)} />
+					)}
 				</View>
 			</View>
 
 			<View style={styles.content}>
 				<View style={styles.formContainer}>
 					<Text style={styles.text}>To:</Text>
-					<TextInput
-						autoCorrect={false}
-						style={styles.input}
-						placeholder="Handy tag"
-						value={state.receiver}
-						onChangeText={(text) => handleChange('receiver', text)}
+
+					<Controller
+						name="receiver"
+						control={control}
+						rules={{
+							required: 'This is required',
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<TextInput
+								autoCorrect={false}
+								autoCapitalize="none"
+								style={styles.input}
+								placeholder="Handy tag"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								onBlur={onBlur}
+								onChangeText={(value) => onChange(value)}
+								value={value}
+							/>
+						)}
 					/>
 				</View>
 
 				<View style={styles.formContainer}>
 					<Text style={styles.text}>For:</Text>
-					<TextInput
-						autoCorrect={true}
-						style={styles.input}
-						placeholder="Add a note"
-						value={state.purpose}
-						onChangeText={(text) => handleChange('purpose', text)}
+
+					<Controller
+						name="purpose"
+						control={control}
+						rules={{
+							required: 'This is required',
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<TextInput
+								autoCorrect={false}
+								style={styles.input}
+								placeholder="Add a note"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								onBlur={onBlur}
+								onChangeText={(value) => onChange(value)}
+								value={value}
+							/>
+						)}
 					/>
 				</View>
 			</View>
@@ -94,6 +126,17 @@ function redirect() {
 					handler={() => console.log('Contacts btn')}
 				/>
 			</View>
+
+			{transaction.error ? (
+				<Text style={styles.error}>{transaction.error}</Text>
+			) : null}
+
+			{errors.receiver?.type === 'required' && (
+				<Text style={styles.error}>Tag of reciever required.</Text>
+			)}
+			{errors.purpose?.type === 'required' && (
+				<Text style={styles.error}>Purpose is required.</Text>
+			)}
 		</View>
 	);
 };
@@ -101,14 +144,11 @@ function redirect() {
 const mapStateToProps = (state) => {
 	return {
 		input: state.transaction.keyboardData,
+		transaction: state.transaction.transaction,
 	};
 };
 
-const mapDispatchToProps = {
-	transfer,
-	clean,
-	all,
-};
+const mapDispatchToProps = { clean, all };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PayAmount);
 
@@ -146,6 +186,7 @@ const styles = StyleSheet.create({
 	input: {
 		fontSize: 20,
 		marginLeft: 5,
+		width: '100%',
 	},
 	contactText: {
 		height: 35,
@@ -161,5 +202,10 @@ const styles = StyleSheet.create({
 	btnContainer: {
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		marginTop: 10,
+	},
+	error: {
+		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
+		color: '#7a1515',
+		fontSize: 17,
 	},
 });
