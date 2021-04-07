@@ -8,6 +8,7 @@ import {
 	LOGIN_START,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE,
+	CLEAN,
 } from '../types';
 
 export const signUp = () => {
@@ -46,6 +47,7 @@ export const signUp = () => {
 						});
 
 						dispatch({ type: SIGN_UP_SUCCESS });
+						dispatch({ type: CLEAN });
 					});
 			})
 
@@ -53,7 +55,7 @@ export const signUp = () => {
 			// 	dispatch({ type: SIGN_UP_SUCCESS });
 			// })
 			.catch((err) => {
-				console.log(err);
+				// console.log(err);
 				dispatch({ type: SIGN_UP_FAILURE, payload: err.message });
 			});
 	};
