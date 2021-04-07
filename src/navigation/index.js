@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AddMoneyScreen from '../screens/AddMoneyScreen';
+import ActivityScreen from '../screens/ActivityScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../index';
 import HomeStack from './HomeStack';
@@ -86,7 +86,7 @@ const MainNavigator = () => {
 						tabBarVisible: mainSetTabBarVisible(route),
 					})}
 				/>
-				<Tab.Screen name="Activity" component={AddMoneyScreen} />
+				<Tab.Screen name="Activity" component={ActivityScreen} />
 			</Tab.Navigator>
 		</NavigationContainer>
 	);
