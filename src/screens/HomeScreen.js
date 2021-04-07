@@ -5,8 +5,18 @@ import User from '../components/User';
 import { Spacing, Colors } from '../index';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
-export default function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, accounts, auth }) {
+	// console.log('accounts', accounts);
+
+	const account = accounts
+		? accounts.find((account) => account.id === auth.uid)
+		: null;
+
+	console.log('Account', account);
 	return (
 		<View style={styles.container}>
 			<Ionicons
@@ -17,9 +27,16 @@ export default function HomeScreen({ navigation }) {
 				onPress={() => navigation.navigate('Main')}
 			/>
 			<View style={styles.content}>
-				<User marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} mt={-40} />
+				<User
+					marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE}
+					mt={-40}
+					handler={() => navigation.navigate('Profile')}
+				/>
 				<View style={styles.txtContainer}>
-					<Text style={styles.amount}> GH₵0.00</Text>
+					{account ? (
+						<Text style={styles.amount}>{`GH₵ ${account.balance}`}</Text>
+					) : null}
+
 					<Text style={styles.subHeading}>Money Balance</Text>
 				</View>
 				<View style={styles.btnContainer}>
@@ -53,11 +70,22 @@ export default function HomeScreen({ navigation }) {
 					</View>
 					<Ionicons name="ios-arrow-forward" size={24} color="#A6A2A2" />
 				</View>
-			
 			</View>
 		</View>
 	);
 }
+
+const mapStateToProps = (state) => ({
+	accounts: state.firestore.ordered.accounts,
+	auth: state.firebase.auth,
+});
+
+const mapDispatchToProps = {};
+
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([{ collection: 'accounts' }])
+)(HomeScreen);
 
 const styles = StyleSheet.create({
 	container: {
