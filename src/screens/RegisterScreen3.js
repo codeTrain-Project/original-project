@@ -12,23 +12,38 @@ import { Colors, Spacing } from '../index';
 import { update, all, signUp } from '../store/actions/authActions';
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { useDispatch } from 'react-redux';
+import { SIGN_UP_FAILURE } from '../store/types';
 
-const RegisterScreen3 = ({ update, all, signUp }) => {
+const RegisterScreen3 = ({ update, all, signUp, users }) => {
+	// console.log('usersusersusersusersusers', users);
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (value) => {
-		// console.log(value);
+	const dispatch = useDispatch();
+
+	const onSubmit = async (value) => {
+		const test = await users.find((user) => user.tagName === value.tag);
+		if (test) {
+			dispatch({
+				type: SIGN_UP_FAILURE,
+				payload: 'Your tag name is already in use, try a different one',
+			});
+			return;
+		}
+
 		update(value);
 		all();
 		signUp();
 	};
 
 	const authRegister = useSelector((state) => state.auth.signUp);
-	console.log('register auth', authRegister);
+	console.log(authRegister);
 
 	return (
 		<View style={styles.container}>
@@ -66,7 +81,7 @@ const RegisterScreen3 = ({ update, all, signUp }) => {
 					)}
 
 					{errors.tag?.type === 'minLength' && (
-						<Text style={styles.error}>Tag must be at least 8 characters.</Text>
+						<Text style={styles.error}>Tag must be at least 4 characters.</Text>
 					)}
 				</View>
 				{authRegister.error ? (
@@ -85,13 +100,22 @@ const RegisterScreen3 = ({ update, all, signUp }) => {
 	);
 };
 
+const mapStateToProps = (state) => {
+	// console.log('statestatestatestatestate', state.firestore);
+	return {
+		users: state.firestore.ordered.users,
+	};
+};
 const mapDispatchToProps = {
 	update,
 	all,
 	signUp,
 };
 
-export default connect(null, mapDispatchToProps)(RegisterScreen3);
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([{ collection: 'users' }])
+)(RegisterScreen3);
 
 const styles = StyleSheet.create({
 	container: {
