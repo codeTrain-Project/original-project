@@ -3,27 +3,29 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PayAmount from '../components/PayAmount';
 import { Colors } from '../index';
-import { transfer, test } from '../store/actions/transactionActions';
+import { transfer, clean, all } from '../store/actions/transactionActions';
 
-const PayPage = ({ navigation, transfer, test }) => {
+const PayPage = ({ navigation, transfer }) => {
 	return (
 		<View style={styles.container}>
-			<PayAmount
-				navigation={navigation}
-				label="Pay"
-				action={() => transfer()}
-				transactionType="transfer"
-			/>
+			<PayAmount navigation={navigation} label="Pay" transacFunc={transfer} />
 		</View>
 	);
 };
 
-const mapDispatchToProps = {
-	transfer,
-	test,
+const mapStateToProps = (state) => {
+	return {
+		input: state.transaction.keyboardData,
+	};
 };
 
-export default connect(null, mapDispatchToProps)(PayPage);
+const mapDispatchToProps = {
+	transfer,
+	clean,
+	all,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PayPage);
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
