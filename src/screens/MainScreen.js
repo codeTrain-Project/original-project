@@ -46,16 +46,16 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		flex: 1,
-		marginTop: 80,
+		marginTop: '2%',
 	},
 	keyContainer: {
-		marginVertical: 100,
+		marginVertical: '5%',
 		// justifyContent: 'space-between',
 	},
 	btnContainer: {
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 50,
+		marginTop: '5%',
 	},
 });

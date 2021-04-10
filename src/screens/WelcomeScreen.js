@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
-		marginVertical: '35%',
+		marginVertical: '10%',
 		justifyContent: 'space-between',
 		// backgroundColor: 'green',
 	},
