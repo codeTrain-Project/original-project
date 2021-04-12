@@ -1,30 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Colors } from './src';
-import MainNavigator from './src/navigation/index';
-import Try from './src/screens/Try';
-import WelcomeScreen from './src/screens/WelcomeScreen';
+import { Provider } from 'react-redux';
+import MainApp from './MainIndex';
+import firebase from './Firebase';
+import store from './src/store/index';
+import { createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import AuthIsLoaded from './src/components/AuthIsLoaded';
+
+// react-redux-firebase config
+const rrfConfig = {
+	userProfile: 'users',
+	useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
+};
+
+const rrfProps = {
+	firebase,
+	config: rrfConfig,
+	dispatch: store.dispatch,
+	createFirestoreInstance, // <- needed if using firestore
+};
 
 export default function App() {
 	return (
-		<>
-			<MainNavigator />
-		</>
+		<Provider store={store}>
+			<ReactReduxFirebaseProvider {...rrfProps}>
+				<AuthIsLoaded>
+					<MainApp />
+				</AuthIsLoaded>
+			</ReactReduxFirebaseProvider>
+		</Provider>
 	);
 }
-
-// const styles = StyleSheet.create({
-// 	container: {
-// 		flex: 1,
-// 		marginTop: 500,
-// 		backgroundColor: 'red',
-// 	},
-// });
-
-// const styles = StyleSheet.create({
-// 	container: {
-// 		flex: 1,
-// 		backgroundColor: Colors.WHITE,
-// 	},
-// });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -10,97 +10,186 @@ import Button from '../components/Button';
 import { Typography, Colors } from '../index';
 import { Spacing } from '../index';
 import { Feather } from '@expo/vector-icons';
+import { update, all } from '../store/actions/authActions';
+import { connect } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation, update, all }) => {
 	const [view, setView] = useState(false);
-	console.log(view);
+
+	const {
+		control,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+
+	const password = useRef({});
+	password.current = watch('password', '');
+
+	const onSubmit = (values) => {
+		update(values);
+		all();
+		navigation.navigate('Register3');
+	};
+
 	return (
 		<View style={styles.container}>
-			<View>
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Password</Text>
-					<View style={styles.passwordContainer}>
-						<TextInput
-							placeholder="Enter your password"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							secureTextEntry={!view}
-							style={styles.input}
-						/>
+			<View style={styles.content}>
+				<View>
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Password</Text>
 
-						{view ? (
-							<TouchableOpacity
-								onPress={() => setView(false)}
-								style={styles.icon}
-							>
-								<Feather name="eye" size={21} color="black" />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								onPress={() => setView(true)}
-								style={styles.icon}
-							>
-								<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-							</TouchableOpacity>
-						)}
+						<Controller
+							name="password"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 8,
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<View style={styles.passwordContainer}>
+									<TextInput
+										placeholder="Enter your password"
+										placeholderTextColor="#a6a2a2"
+										autoCapitalize="none"
+										autoCorrect={false}
+										onBlur={onBlur}
+										secureTextEntry={!view}
+										style={styles.input}
+										value={value}
+										onChangeText={(value) => onChange(value)}
+									/>
+
+									{view ? (
+										<TouchableOpacity
+											onPress={() => setView(false)}
+											style={styles.icon}
+										>
+											<Feather name="eye" size={21} color="black" />
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											onPress={() => setView(true)}
+											style={styles.icon}
+										>
+											<Feather
+												name="eye-off"
+												size={21}
+												color={Colors.GRAY_DARK}
+											/>
+										</TouchableOpacity>
+									)}
+								</View>
+							)}
+						/>
 					</View>
+					{errors.password?.type === 'required' && (
+						<Text style={styles.error}>Password is required.</Text>
+					)}
+
+					{errors.password?.type === 'minLength' && (
+						<Text style={styles.error}>Password is at least 8 characters.</Text>
+					)}
+
+					<View style={styles.formInput}>
+						<Text style={styles.label}>Confirm Password</Text>
+
+						<Controller
+							name="confirmPassword"
+							control={control}
+							rules={{
+								required: 'This is required',
+								minLength: 8,
+								validate: (value) =>
+									value === password.current || 'The passwords do not match',
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<View style={styles.passwordContainer}>
+									<TextInput
+										placeholder="Enter your password"
+										placeholderTextColor="#a6a2a2"
+										autoCapitalize="none"
+										autoCorrect={false}
+										onBlur={onBlur}
+										secureTextEntry={!view}
+										style={styles.input}
+										value={value}
+										onChangeText={(value) => onChange(value)}
+									/>
+									{view ? (
+										<TouchableOpacity
+											onPress={() => setView(false)}
+											style={styles.icon}
+										>
+											<Feather name="eye" size={21} color="black" />
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											onPress={() => setView(true)}
+											style={styles.icon}
+										>
+											<Feather
+												name="eye-off"
+												size={21}
+												color={Colors.GRAY_DARK}
+											/>
+										</TouchableOpacity>
+									)}
+								</View>
+							)}
+						/>
+					</View>
+
+					{errors.confirmPassword?.type === 'validate' && (
+						<Text style={styles.error}>Passwords do not match. </Text>
+					)}
+
+					{errors.confirmPassword?.type === 'required' && (
+						<Text style={styles.error}>Password is required.</Text>
+					)}
+
+					{errors.confirmPassword?.type === 'minLength' && (
+						<Text style={styles.error}>
+							Password must be at least 8 characters.
+						</Text>
+					)}
+				</View>
+				<View style={styles.btnContainer}>
+					<Button label="Register" handler={handleSubmit(onSubmit)} />
 				</View>
 
-				<View style={styles.formInput}>
-					<Text style={styles.label}>Confirm Password</Text>
-					<View style={styles.passwordContainer}>
-						<TextInput
-							placeholder="Enter your password"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							secureTextEntry={!view}
-							style={styles.input}
-						/>
-
-						{view ? (
-							<TouchableOpacity
-								onPress={() => setView(false)}
-								style={styles.icon}
-							>
-								<Feather name="eye" size={21} color="black" />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								onPress={() => setView(true)}
-								style={styles.icon}
-							>
-								<Feather name="eye-off" size={21} color={Colors.GRAY_DARK} />
-							</TouchableOpacity>
-						)}
-					</View>
+				<View style={styles.txtContainer}>
+					<Text style={styles.text}>Already have an account ? </Text>
+					<Text
+						style={[styles.text, styles.signupTxt]}
+						onPress={() => navigation.navigate('Log in')}
+					>
+						LOG IN
+					</Text>
 				</View>
-
-				<Text style={styles.error}>Password does not match</Text>
-			</View>
-			<View style={styles.btnContainer}>
-				<Button label="Register" />
-			</View>
-
-			<View style={styles.txtContainer}>
-				<Text style={styles.text}>Already have an account ? </Text>
-				<Text style={[styles.text, styles.signupTxt]}>LOG IN</Text>
 			</View>
 		</View>
 	);
 };
 
-export default RegisterScreen;
+const mapDispatchToProps = {
+	update,
+	all,
+};
+
+export default connect(null, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: Colors.WHITE,
+	},
+	content: {
+		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		marginVertical: '45%',
-		// justifyContent: 'space-between',
 	},
-
 	formInput: {
 		marginVertical: 25,
 	},

@@ -1,27 +1,14 @@
-import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	TextInput,
-	TouchableWithoutFeedback,
-	Keyboard,
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 
-const Try = () => {
-	return (
-		<View style={styles.container}>
-			<Text>rhtdjyfvgbhnkjm</Text>
-		</View>
-	);
-};
+export class Try extends Component {
+	render() {
+		return (
+			<View>
+				<Text> textInComponent </Text>
+			</View>
+		);
+	}
+}
 
 export default Try;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		marginTop: 500,
-		backgroundColor: 'red',
-	},
-});

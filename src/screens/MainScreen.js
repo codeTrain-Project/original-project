@@ -2,25 +2,43 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
 import KeyboardComponent from '../components/KeyboardComponent';
-import Menu from '../components/Menu';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
+import { useSelector } from 'react-redux';
 
 const MainScreen = ({ navigation }) => {
+	const trans = useSelector((state) => state.transaction);
+
+	const func = () => {
+		if (trans.keyboardData < 1) return;
+		navigation.navigate('Pay');
+	};
+	const funct = () => {
+		if (trans.keyboardData < 1) return;
+		navigation.navigate('Request');
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
-				<User color="white" marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE} />
+				<User
+					color="white"
+					marginHorizontal={Spacing.HORIZONTAL_WHITE_SPACE}
+					handler={() => navigation.navigate('Profile')}
+				/>
 
 				<View style={styles.keyContainer}>
 					<KeyboardComponent />
 					<View style={styles.btnContainer}>
-						<Button label="Request" width="48%" btnColor="#12AA73" />
-						<Button label="Pay" width="48%" btnColor="#12AA73" />
+						<Button
+							label="Request"
+							width="48%"
+							btnColor="#12AA73"
+							handler={funct}
+						/>
+						<Button label="Pay" width="48%" btnColor="#12AA73" handler={func} />
 					</View>
 				</View>
-
-				<Menu border={0} navigation={navigation} />
 			</View>
 		</View>
 	);
