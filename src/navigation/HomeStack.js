@@ -3,6 +3,7 @@ import HomeScreen from '../screens/HomeScreen';
 import AddMoneyScreen from '../screens/AddMoneyScreen';
 import ModalScreen from '../screens/ModalScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import Try from '../screens/Try';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,14 @@ const HomeStack = () => {
 				mode="modal"
 				name="Modal"
 				component={ModalScreen}
+			/>
+
+			<Stack.Screen
+				options={{
+					header: () => null,
+				}}
+				name="Try"
+				component={Try}
 			/>
 		</Stack.Navigator>
 	);

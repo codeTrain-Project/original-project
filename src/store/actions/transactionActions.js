@@ -1,5 +1,6 @@
 import { CLEAN, TRANSC_START, TRANSC_FAILURE, TRANSC_SUCCESS } from '../types';
 
+
 export const transfer = (amount, recieverTag, purpose, redirect) => async (
 	dispatch,
 	getState,
@@ -43,6 +44,12 @@ export const transfer = (amount, recieverTag, purpose, redirect) => async (
 		for (const doc of response.docs) {
 			console.log(doc.id, '=>', doc.data());
 
+			//Check for enough funds
+			if (doc.data().balance < amount)
+				return dispatch({
+					type: TRANSC_FAILURE,
+					payload: "You don't have enough funds for the transaction",
+				});
 			//Debit sender
 			const response = await firestore
 				.collection('accounts')
@@ -171,6 +178,9 @@ export const request = (amount, recieverTag, purpose, redirect) => async (
 					reciever: recieverTag,
 					date: new Date(),
 				});
+
+
+
 			// console.log('updateTranx updateTranx updateTranx ', updateTranx);
 			// redirect();
 			dispatch({ type: CLEAN });

@@ -6240,7 +6240,7 @@
   "resolved" "https://registry.npmjs.org/react-native-virtual-keyboard/-/react-native-virtual-keyboard-1.1.0.tgz"
   "version" "1.1.0"
 
-"react-native-web@^0.15.0", "react-native-web@~0.13.7":
+"react-native-web@~0.13.7":
   "integrity" "sha512-42Ax8MyQ8FX2t4iJC2i091IIlXR1KuQn4lPvX+dm1K86Z6uuibwRZgJOxUBsQZJqdLrZQ9qeknJsGErOcJgaOg=="
   "resolved" "https://registry.npmjs.org/react-native-web/-/react-native-web-0.15.0.tgz"
   "version" "0.15.0"
