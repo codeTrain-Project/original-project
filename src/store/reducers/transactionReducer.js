@@ -11,13 +11,10 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case CLEAN:
+			console.log('State from reducer', state);
 			return {
 				...state,
 				keyboardData: 0,
-				transaction: {
-					error: null,
-					loading: false,
-				},
 			};
 
 		case 'UPDATE_KEYBOARD':
