@@ -59,46 +59,48 @@ const ActivityScreen = ({ id, PersonalTransactions, navigation }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
-				<View style={styles.header}>
-					{state ? (
-						<TextInput
-							placeholder="Search by tagName"
-							placeholderTextColor="#cacaca"
-							autoCapitalize="none"
-							autoCorrect={false}
-							style={styles.input}
-							onChangeText={(text) => setSearch(text)}
-						/>
-					) : (
-						<Text style={styles.heading}>Activity</Text>
-					)}
-
-					<View style={styles.subHeader}>
+				<View style={styles.headerContainer}>
+					<View style={styles.header}>
 						{state ? (
-							<Ionicons
-								name="md-close"
-								size={30}
-								color="black"
-								style={styles.back}
-								onPress={() => setState(!state)}
+							<TextInput
+								placeholder="Search by tagName"
+								placeholderTextColor="#cacaca"
+								autoCapitalize="none"
+								autoCorrect={false}
+								style={styles.input}
+								onChangeText={(text) => setSearch(text)}
 							/>
 						) : (
-							<Feather
-								name="search"
-								style={styles.icon}
-								size={25}
-								color="black"
-								onPress={() => setState(!state)}
-							/>
+							<Text style={styles.heading}>Activity</Text>
 						)}
 
-						{state ? null : (
-							<User
-								color="black"
-								mt={0}
-								handler={() => navigation.navigate('Profile')}
-							/>
-						)}
+						<View style={styles.subHeader}>
+							{state ? (
+								<Ionicons
+									name="md-close"
+									size={30}
+									color="black"
+									style={styles.back}
+									onPress={() => setState(!state)}
+								/>
+							) : (
+								<Feather
+									name="search"
+									style={styles.icon}
+									size={25}
+									color="black"
+									onPress={() => setState(!state)}
+								/>
+							)}
+
+							{state ? null : (
+								<User
+									color="black"
+									mt={0}
+									handler={() => navigation.navigate('Profile')}
+								/>
+							)}
+						</View>
 					</View>
 				</View>
 
@@ -144,6 +146,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
+	},
+	headerContainer: {
+		paddingTop: 7,
+		paddingBottom: 7,
+		borderBottomColor: Colors.GRAY_MEDIUM,
+		borderBottomWidth: 1,
 	},
 	subHeader: {
 		flexDirection: 'row',
