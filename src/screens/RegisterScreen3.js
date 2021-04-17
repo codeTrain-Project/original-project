@@ -5,6 +5,8 @@ import {
 	View,
 	TextInput,
 	ActivityIndicator,
+	TouchableWithoutFeedback,
+	Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
@@ -16,8 +18,9 @@ import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { useDispatch } from 'react-redux';
 import { SIGN_UP_FAILURE } from '../store/types';
+import { Ionicons } from '@expo/vector-icons';
 
-const RegisterScreen3 = ({ update, all, signUp, users }) => {
+const RegisterScreen3 = ({ update, all, signUp, users, navigation }) => {
 	// console.log('usersusersusersusersusers', users);
 	const {
 		control,
@@ -46,9 +49,19 @@ const RegisterScreen3 = ({ update, all, signUp, users }) => {
 	console.log(authRegister);
 
 	return (
-		<View style={styles.container}>
+		<TouchableWithoutFeedback
+			onPress={() => Keyboard.dismiss()}
+			style={styles.container}
+		>
 			<View style={styles.content}>
 				<View>
+					<Ionicons
+						name="ios-arrow-back"
+						size={24}
+						color="black"
+						style={styles.back}
+						onPress={() => navigation.goBack()}
+					/>
 					<Text style={styles.heading1}>Choose a Handy tag</Text>
 					<Text style={styles.heading2}>
 						Your unique name for getting paid by everyone
@@ -93,15 +106,12 @@ const RegisterScreen3 = ({ update, all, signUp, users }) => {
 				) : (
 					<Button label="Done" handler={handleSubmit(onSubmit)} />
 				)}
-
-				{/* <Button label="Done" handler={handleSubmit(onSubmit)} /> */}
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
 const mapStateToProps = (state) => {
-	// console.log('statestatestatestatestate', state.firestore);
 	return {
 		users: state.firestore.ordered.users,
 	};
@@ -125,11 +135,12 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
-		marginVertical: '25%',
+		marginVertical: '15%',
 		justifyContent: 'space-between',
 	},
 	heading1: {
 		fontSize: 24,
+		marginTop: 40,
 	},
 	heading2: {
 		fontSize: 18,
