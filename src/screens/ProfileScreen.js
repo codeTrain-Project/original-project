@@ -24,7 +24,7 @@ const ProfileScreen = ({ navigation, signOut, users, auth }) => {
 				size={20}
 				color="black"
 				style={styles.back}
-				onPress={() => navigation.navigate('Main')}
+				onPress={() => navigation.goBack()}
 			/>
 			<View style={styles.thinLine}></View>
 
