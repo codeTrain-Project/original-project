@@ -3,12 +3,18 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Colors, Spacing } from '../index';
 import GrayBox from '../components/GrayBox';
 import Button from '../components/Button';
+import { AntDesign } from '@expo/vector-icons';
 
 const ModalScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
-				<View style={styles.smallbox}></View>
+			<TouchableOpacity onPress={() => navigation.goBack()}>
+				<AntDesign
+					name="downcircleo"
+					size={30}
+					color="black"
+					style={styles.downIcon}
+				/>
 			</TouchableOpacity>
 			<Text style={styles.heading}>Top up Cash</Text>
 			<View style={styles.boxContainer}>
@@ -24,7 +30,7 @@ const ModalScreen = ({ navigation }) => {
 				</View>
 			</View>
 
-			<Button label="Top up" handler={() => navigation.navigate('Add Money')} />
+			<Button label="Top up" handler={() => navigation.navigate('LinkMomo')} />
 		</View>
 	);
 };
@@ -46,13 +52,11 @@ const styles = StyleSheet.create({
 		// marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		paddingHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 	},
-	smallbox: {
-		height: 6,
-		width: 40,
-		backgroundColor: Colors.GRAY_LIGHT,
+	downIcon: {
+		color: 'black',
+		opacity: 0.5,
 		alignSelf: 'center',
 		marginTop: 10,
-		borderRadius: 200,
 	},
 	heading: {
 		fontWeight: 'bold',
