@@ -37,13 +37,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: 'white',
+		paddingTop: 20,
 	},
 	content: {
 		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
-		marginVertical: '35%',
-		justifyContent: 'space-between',
-		// backgroundColor: 'green',
+		justifyContent: 'space-around',
 	},
 	textContainer: {
 		// marginTop: '35%',
