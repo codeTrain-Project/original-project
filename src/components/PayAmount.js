@@ -4,7 +4,6 @@ import {
 	Text,
 	View,
 	TextInput,
-	Keyboard,
 	ActivityIndicator,
 } from 'react-native';
 import { Colors, Spacing } from '../index';
@@ -12,18 +11,9 @@ import { Ionicons } from '@expo/vector-icons';
 import PayBtn from './PayBtn';
 import TransparentBtn from './TransparentBtn';
 import { connect } from 'react-redux';
-import { clean, all } from '../store/actions/transactionActions';
 import { useForm, Controller } from 'react-hook-form';
 
-const PayAmount = ({
-	navigation,
-	label,
-	input,
-	clean,
-	all,
-	transacFunc,
-	transaction,
-}) => {
+const PayAmount = ({ navigation, label, transacFunc, transaction, state }) => {
 	const {
 		control,
 		handleSubmit,
@@ -35,8 +25,7 @@ const PayAmount = ({
 	}
 
 	const onSubmit = (values) => {
-		transacFunc(parseInt(input), values.receiver, values.purpose, redirect);
-		// transfer(parseInt(input), state.receiver, state.purpose, redirect);
+		transacFunc(parseInt(state), values.receiver, values.purpose, redirect);
 	};
 
 	return (
@@ -50,11 +39,9 @@ const PayAmount = ({
 						style={styles.back}
 						onPress={() => {
 							navigation.navigate('Main');
-							clean();
-							all();
 						}}
 					/>
-					<Text style={styles.headeramount}>₵{input}</Text>
+					<Text style={styles.headeramount}>₵{state}</Text>
 					{transaction.loading ? (
 						<ActivityIndicator size="large" color={Colors.PRIMARY} />
 					) : (
@@ -143,14 +130,11 @@ const PayAmount = ({
 
 const mapStateToProps = (state) => {
 	return {
-		input: state.transaction.keyboardData,
 		transaction: state.transaction.transaction,
 	};
 };
 
-const mapDispatchToProps = { clean, all };
-
-export default connect(mapStateToProps, mapDispatchToProps)(PayAmount);
+export default connect(mapStateToProps, null)(PayAmount);
 
 const styles = StyleSheet.create({
 	container: {
