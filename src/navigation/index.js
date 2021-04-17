@@ -33,7 +33,7 @@ const mainSetTabBarVisible = (route) => {
 
 const homeSetTabBarVisible = (route) => {
 	const routeName = getFocusedRouteNameFromRoute(route);
-	const hideOnScreens = ['Modal', 'Add Money'];
+	const hideOnScreens = ['Modal', 'Add Money', 'LinkMomo'];
 	if (hideOnScreens.indexOf(routeName) > -1) return false;
 	return true;
 };
