@@ -7,6 +7,7 @@ import Try from '../screens/Try';
 import LinkMomo from '../screens/LinkMomo';
 import OTPScreen from '../screens/OTPScreen';
 import SuccessfulScreen from '../screens/SuccessfulScreen';
+import InputAmount from '../screens/InputAmount';
 
 const Stack = createStackNavigator();
 const config = {
@@ -88,6 +89,13 @@ const HomeStack = () => {
 				}}
 				name="OTPScreen"
 				component={OTPScreen}
+			/>
+			<Stack.Screen
+				options={{
+					header: () => null,
+				}}
+				name="InputAmount"
+				component={InputAmount}
 			/>
 		</Stack.Navigator>
 	);
