@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../index';
 
-const GrayBox = ({ value }) => {
+const GrayBox = ({ value, setVl, color, outClicked, setOutClicked }) => {
+	const [clicked, setClicked] = useState(false);
+
 	return (
-		<TouchableOpacity>
-			<View style={styles.container}>
-				<Text style={styles.text}>{value}</Text>
+		<TouchableOpacity
+			onPress={() => {
+				setVl(value);
+				setClicked(!clicked);
+			}}
+		>
+			<View
+				style={{
+					...styles.container,
+					backgroundColor: clicked ? Colors.GRAY_DARK : color,
+				}}
+			>
+				<Text style={styles.text}>{`₵${value}`}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -18,7 +30,6 @@ const styles = StyleSheet.create({
 	container: {
 		width: 65,
 		height: 65,
-		backgroundColor: Colors.GRAY_LIGHT,
 		borderRadius: 15,
 	},
 	text: {
