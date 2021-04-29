@@ -4,12 +4,12 @@ import { Spacing, Colors } from '../index';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-const ProfileContent = () => {
+const ProfileContent = ({ label, icon }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
-				<AntDesign name="user" size={24} color="black" />
-				<Text style={styles.text}>Personal</Text>
+				{icon}
+				<Text style={styles.text}>{label}</Text>
 			</View>
 			<Ionicons name="ios-arrow-forward" size={24} color={Colors.GRAY_MEDIUM} />
 		</View>
