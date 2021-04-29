@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -12,8 +12,16 @@ import PayBtn from './PayBtn';
 import TransparentBtn from './TransparentBtn';
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import { clean } from '../store/actions/transactionActions';
 
-const PayAmount = ({ navigation, label, transacFunc, transaction, state }) => {
+const PayAmount = ({
+	navigation,
+	label,
+	transacFunc,
+	transaction,
+	state,
+	clean,
+}) => {
 	const {
 		control,
 		handleSubmit,
@@ -27,7 +35,13 @@ const PayAmount = ({ navigation, label, transacFunc, transaction, state }) => {
 	const onSubmit = (values) => {
 		transacFunc(parseInt(state), values.receiver, values.purpose, redirect);
 	};
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			clean();
+		});
 
+		return unsubscribe;
+	}, [navigation]);
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -134,7 +148,11 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, null)(PayAmount);
+const mapDispatchToProps = {
+	clean,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PayAmount);
 
 const styles = StyleSheet.create({
 	container: {
