@@ -5,6 +5,9 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
+	ScrollView,
+	Keyboard,
+	TouchableWithoutFeedback,
 } from 'react-native';
 import Button from '../components/Button';
 import { Typography, Colors } from '../index';
@@ -13,6 +16,7 @@ import { Feather } from '@expo/vector-icons';
 import { update, all } from '../store/actions/authActions';
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import { Ionicons } from '@expo/vector-icons';
 
 const RegisterScreen = ({ navigation, update, all }) => {
 	const [view, setView] = useState(false);
@@ -34,8 +38,18 @@ const RegisterScreen = ({ navigation, update, all }) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<TouchableWithoutFeedback
+			style={styles.container}
+			onPress={() => Keyboard.dismiss()}
+		>
 			<View style={styles.content}>
+				<Ionicons
+					name="ios-arrow-back"
+					size={24}
+					color="black"
+					style={styles.back}
+					onPress={() => navigation.goBack()}
+				/>
 				<View>
 					<View style={styles.formInput}>
 						<Text style={styles.label}>Password</Text>
@@ -47,7 +61,7 @@ const RegisterScreen = ({ navigation, update, all }) => {
 								required: 'This is required',
 								minLength: 8,
 							}}
-							render={({ field: { onChange, onBlur, value } }) => (
+							render={({ field: { onChange, onBlur, value, ref } }) => (
 								<View style={styles.passwordContainer}>
 									<TextInput
 										placeholder="Enter your password"
@@ -55,10 +69,12 @@ const RegisterScreen = ({ navigation, update, all }) => {
 										autoCapitalize="none"
 										autoCorrect={false}
 										onBlur={onBlur}
-										secureTextEntry={!view}
+										secureTextEntry={true}
 										style={styles.input}
 										value={value}
 										onChangeText={(value) => onChange(value)}
+										inputRef={ref}
+										// onBlur={Keyboard.dismiss}
 									/>
 
 									{view ? (
@@ -104,7 +120,7 @@ const RegisterScreen = ({ navigation, update, all }) => {
 								validate: (value) =>
 									value === password.current || 'The passwords do not match',
 							}}
-							render={({ field: { onChange, onBlur, value } }) => (
+							render={({ field: { onChange, onBlur, value, ref } }) => (
 								<View style={styles.passwordContainer}>
 									<TextInput
 										placeholder="Enter your password"
@@ -116,6 +132,8 @@ const RegisterScreen = ({ navigation, update, all }) => {
 										style={styles.input}
 										value={value}
 										onChangeText={(value) => onChange(value)}
+										inputRef={ref}
+										// onBlur={Keyboard.dismiss}
 									/>
 									{view ? (
 										<TouchableOpacity
@@ -154,9 +172,9 @@ const RegisterScreen = ({ navigation, update, all }) => {
 							Password must be at least 8 characters.
 						</Text>
 					)}
-				</View>
-				<View style={styles.btnContainer}>
-					<Button label="Register" handler={handleSubmit(onSubmit)} />
+					<View style={styles.btnContainer}>
+						<Button label="Register" handler={handleSubmit(onSubmit)} />
+					</View>
 				</View>
 
 				<View style={styles.txtContainer}>
@@ -169,7 +187,7 @@ const RegisterScreen = ({ navigation, update, all }) => {
 					</Text>
 				</View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -184,11 +202,13 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.WHITE,
+		// backgroundColor: 'red',
 	},
 	content: {
 		flex: 1,
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
-		marginVertical: '45%',
+		justifyContent: 'space-around',
+		// marginVertical: '45%',
 	},
 	formInput: {
 		marginVertical: 25,
@@ -223,7 +243,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	btnContainer: {
-		marginVertical: 20,
+		// marginVertical: 20,
 	},
 	text: {
 		fontSize: Typography.FONT_SIZE_NORMAL,

@@ -18,9 +18,11 @@ const KeyboardComponent = ({
 	keyboardUpdate,
 	all,
 	keyboardData,
+	clear,
 }) => {
 	// const [text, setText] = useState('0');
 	const changeText = (newText) => {
+		console.log(newText);
 		keyboardUpdate(newText);
 		// all();
 	};
@@ -33,7 +35,7 @@ const KeyboardComponent = ({
 				autoCorrect={false}
 				style={{ ...styles.input, color: txtColor }}
 				defaultValue={`GH₵ ${keyboardData}`}
-				onSubmitEditing={Keyboard.dismiss}
+				onFocus={Keyboard.dismiss}
 			/>
 
 			{/* <Text style={{ ...styles.text, color: txtColor }}>{`GH₵ ${text}`}</Text> */}
@@ -42,6 +44,7 @@ const KeyboardComponent = ({
 				pressMode="string"
 				onPress={(val) => changeText(val)}
 				decimal={true}
+				clear={clear}
 			/>
 		</View>
 	);

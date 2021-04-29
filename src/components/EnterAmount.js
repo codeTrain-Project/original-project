@@ -3,11 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Spacing, Colors } from '../index';
 import Button from './Button';
 import KeyboardComponent from './KeyboardComponent';
-import { Gh_mobilemoney } from '../utils/load';
 
 const EnterAmount = ({ heading, label, btnFnc }) => {
-
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.heading}>{heading}</Text>

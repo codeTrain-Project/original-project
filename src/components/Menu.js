@@ -7,7 +7,7 @@ import {
 	Touchable,
 } from 'react-native';
 import { Spacing, Colors } from '../index';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';	
 import { Fontisto } from '@expo/vector-icons';
 
 const Menu = ({

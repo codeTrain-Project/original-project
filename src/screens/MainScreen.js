@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
-import KeyboardComponent from '../components/KeyboardComponent';
 import User from '../components/User';
 import { Spacing, Colors } from '../index';
-import { useSelector } from 'react-redux';
+import MyKeyboard from '../components/MyKeyboard';
 
 const MainScreen = ({ navigation }) => {
-	const trans = useSelector((state) => state.transaction);
+	// const trans = useSelector((state) => state.transaction);
+
+	const [state, setState] = useState('0');
 
 	const func = () => {
-		if (trans.keyboardData < 1) return;
-		navigation.navigate('Pay');
+		if (parseInt(state) < 1) return;
+		navigation.navigate('Pay', {
+			state: state,
+		});
 	};
 	const funct = () => {
-		if (trans.keyboardData < 1) return;
-		navigation.navigate('Request');
+		if (parseInt(state) < 1) return;
+		navigation.navigate('Request', {
+			state: state,
+		});
 	};
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			setState('0');
+		});
+
+		return unsubscribe;
+	}, [navigation]);
 
 	return (
 		<View style={styles.container}>
@@ -27,8 +40,10 @@ const MainScreen = ({ navigation }) => {
 					handler={() => navigation.navigate('Profile')}
 				/>
 
+				<Text style={styles.output}>{`GH₵ ${state}`}</Text>
+				<MyKeyboard setState={setState} state={state} />
+
 				<View style={styles.keyContainer}>
-					<KeyboardComponent />
 					<View style={styles.btnContainer}>
 						<Button
 							label="Request"
@@ -53,16 +68,24 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		flex: 1,
-		marginTop: 80,
+		marginVertical: '10%',
+	},
+	test: {
+		backgroundColor: 'gray',
+	},
+	output: {
+		fontSize: 40,
+		color: Colors.WHITE,
+		alignSelf: 'center',
 	},
 	keyContainer: {
-		marginVertical: 100,
+		// marginVertical: 100,
 		// justifyContent: 'space-between',
 	},
 	btnContainer: {
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 50,
+		marginTop: 40,
 	},
 });

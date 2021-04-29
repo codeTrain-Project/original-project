@@ -1,6 +1,5 @@
 import { CLEAN, TRANSC_START, TRANSC_FAILURE, TRANSC_SUCCESS } from '../types';
 
-
 export const transfer = (amount, recieverTag, purpose, redirect) => async (
 	dispatch,
 	getState,
@@ -14,7 +13,11 @@ export const transfer = (amount, recieverTag, purpose, redirect) => async (
 	const firebase = getFirebase();
 
 	if (amount < 1) return;
-	if (tagSender === recieverTag) return;
+	if (tagSender === recieverTag)
+		return dispatch({
+			type: TRANSC_FAILURE,
+			payload: 'You can not transfer to same user',
+		});
 	if (purpose === '') return;
 
 	try {
@@ -127,7 +130,11 @@ export const request = (amount, recieverTag, purpose, redirect) => async (
 	const firebase = getFirebase();
 
 	if (amount < 1) return;
-	if (tagSender === recieverTag) return;
+	if (tagSender === recieverTag)
+		return dispatch({
+			type: TRANSC_FAILURE,
+			payload: 'You can not request from same user',
+		});
 	if (purpose === '') return;
 
 	//Sending Request transaction
@@ -178,8 +185,6 @@ export const request = (amount, recieverTag, purpose, redirect) => async (
 					reciever: recieverTag,
 					date: new Date(),
 				});
-
-
 
 			// console.log('updateTranx updateTranx updateTranx ', updateTranx);
 			// redirect();

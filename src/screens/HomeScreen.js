@@ -10,13 +10,10 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 
 function HomeScreen({ navigation, accounts, auth }) {
-	// console.log('accounts', accounts);
-
 	const account = accounts
 		? accounts.find((account) => account.id === auth.uid)
 		: null;
 
-	console.log('Account', account);
 	return (
 		<View style={styles.container}>
 			<Ionicons
@@ -24,7 +21,7 @@ function HomeScreen({ navigation, accounts, auth }) {
 				size={30}
 				color="black"
 				style={styles.back}
-				onPress={() => navigation.navigate('Main')}
+				onPress={() => navigation.goBack()}
 			/>
 			<View style={styles.content}>
 				<User
@@ -98,10 +95,10 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		flex: 1,
-		marginTop: '25%',
+		marginTop: '15%',
 	},
 	txtContainer: {
-		marginTop: 70,
+		marginTop: '10%',
 	},
 	amount: {
 		fontSize: 38,
