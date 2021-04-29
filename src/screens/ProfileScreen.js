@@ -9,6 +9,8 @@ import { signOut } from '../store/actions/authActions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const ProfileScreen = ({ navigation, signOut, users, auth }) => {
 	const user = users ? users.find((user) => user.id === auth.uid) : null;
@@ -47,10 +49,22 @@ const ProfileScreen = ({ navigation, signOut, users, auth }) => {
 				</View>
 
 				<View style={styles.content}>
-					<ProfileContent />
-					<ProfileContent />
-					<ProfileContent />
-					<ProfileContent />
+					<ProfileContent
+						label="Personal"
+						icon={<AntDesign name="user" size={24} color="black" />}
+					/>
+					<ProfileContent
+						label="Privacy and Security"
+						icon={<MaterialIcons name="security" size={24} color="black" />}
+					/>
+					<ProfileContent
+						label="Notification"
+						icon={<Feather name="bell" size={24} color="black" />}
+					/>
+					<ProfileContent
+						label="Support"
+						icon={<Feather name="help-circle" size={24} color="black" />}
+					/>
 				</View>
 
 				<View style={styles.btnContainer}>
