@@ -6,8 +6,12 @@ import TransparentBtn from '../components/TransparentBtn';
 import RNWeb from '../utils/RNWeb';
 import { Ionicons } from '@expo/vector-icons';
 
-const LinkMomo = ({ label, navigation }) => {
+const LinkMomo = ({ label, navigation, route }) => {
 	const [text, setText] = useState('');
+
+	const { value } = route.params;
+
+
 	const changeText = (newText) => {
 		setText(newText);
 	};
@@ -26,7 +30,7 @@ const LinkMomo = ({ label, navigation }) => {
 		if (text.length === 10) {
 			let data = {
 				tx_ref: 'HAY-13' + (1000 + Math.floor(Math.random * 100000)),
-				amount: '150',
+				amount: value,
 				currency: 'GHS',
 				network: 'MTN',
 				email: 'hhuzaifah050@gmail.com',
