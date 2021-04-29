@@ -40,7 +40,7 @@ const MainScreen = ({ navigation }) => {
 					handler={() => navigation.navigate('Profile')}
 				/>
 
-				<Text style={styles.output}>{`₵ ${state}`}</Text>
+				<Text style={styles.output}>{`GH₵ ${state}`}</Text>
 				<MyKeyboard setState={setState} state={state} />
 
 				<View style={styles.keyContainer}>
@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
 		marginHorizontal: Spacing.HORIZONTAL_WHITE_SPACE,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 50,
+		marginTop: 40,
 	},
 });
