@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Colors, Spacing } from '../index';
 import GrayBox from '../components/GrayBox';
@@ -6,6 +6,8 @@ import Button from '../components/Button';
 import { AntDesign } from '@expo/vector-icons';
 
 const ModalScreen = ({ navigation }) => {
+	const [vl, setVl] = useState('');
+	const [outClicked, setOutClicked] = useState(false);
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={() => navigation.goBack()}>
@@ -19,18 +21,65 @@ const ModalScreen = ({ navigation }) => {
 			<Text style={styles.heading}>Top up Cash</Text>
 			<View style={styles.boxContainer}>
 				<View style={[styles.row, styles.first]}>
-					<GrayBox value={'₵10'} />
-					<GrayBox value={'₵25'} />
-					<GrayBox value={'₵50'} />
+					<GrayBox
+						value={'10'}
+						setVl={setVl}
+						color={'#e6e6e6'}
+						outClicked={outClicked}
+						setOutClicked={setOutClicked}
+					/>
+					<GrayBox
+						value={'25'}
+						setVl={setVl}
+						color={'#e6e6e6'}
+						outClicked={outClicked}
+						setOutClicked={setOutClicked}
+					/>
+					<GrayBox
+						value={'50'}
+						setVl={setVl}
+						color={'#e6e6e6'}
+						outClicked={outClicked}
+						setOutClicked={setOutClicked}
+					/>
 				</View>
 				<View style={[styles.row, styles.second]}>
-					<GrayBox value={'₵75'} />
-					<GrayBox value={'₵100'} />
-					<GrayBox value={'...'} />
+					<GrayBox value={'75'} setVl={setVl} color={'#e6e6e6'} />
+					<GrayBox value={'100'} setVl={setVl} color={'#e6e6e6'} />
+					<TouchableOpacity
+						onPress={() => {
+							navigation.navigate('InputAmount');
+						}}
+					>
+						<View
+							style={{
+								width: 65,
+								height: 65,
+								borderRadius: 15,
+								backgroundColor: Colors.GRAY_LIGHT,
+							}}
+						>
+							<Text
+								style={{
+									fontWeight: 'bold',
+									fontSize: 18,
+									alignSelf: 'center',
+									marginTop: 20,
+								}}
+							>{`...`}</Text>
+						</View>
+					</TouchableOpacity>
 				</View>
 			</View>
 
-			<Button label="Top up" handler={() => navigation.navigate('LinkMomo')} />
+			<Button
+				label="Top up"
+				handler={() =>
+					navigation.navigate('LinkMomo', {
+						value: vl,
+					})
+				}
+			/>
 		</View>
 	);
 };
