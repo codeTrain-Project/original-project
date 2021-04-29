@@ -203,6 +203,8 @@ const styles = StyleSheet.create({
 	},
 	btn: {
 		// backgroundColor: 'yellow',
+		width: 50,
+		height: 50,
 	},
 	num: {
 		fontSize: 30,
